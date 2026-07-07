@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose a Service — Aurelie</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark"><span class="loader__glyph">A</span></div>
+  <div class="loader__line"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="menu.html" class="page-back" aria-label="Back to menu">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span data-i18n="back_to_menu">Menu</span>
+    </a>
+    <span class="page-header__title" data-i18n="services_page_title">Choose a Service</span>
+    <div class="header__actions">
+      <select class="lang-select icon-btn" id="langSelect" aria-label="Choose language">
+        <option value="en">EN</option>
+        <option value="ru">RU</option>
+        <option value="kk">KZ</option>
+        <option value="ky">KG</option>
+        <option value="uz">UZ</option>
+      </select>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
+        <i class="fa-regular fa-moon"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section has-continue-bar" style="padding-top:140px;">
+    <div class="container" style="max-width:760px;">
+
+      <div class="service-search reveal">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="serviceSearch" placeholder="Search by name" data-i18n-ph="search_ph">
+      </div>
+
+      <div class="category-tabs reveal" id="categoryTabs">
+        <button class="filter-btn is-active" data-cat="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-cat="hair" data-i18n="filter_hair">Hair</button>
+        <button class="filter-btn" data-cat="nails" data-i18n="filter_nails">Nails</button>
+        <button class="filter-btn" data-cat="brows" data-i18n="filter_brows">Brows &amp; Lashes</button>
+        <button class="filter-btn" data-cat="skin" data-i18n="filter_skin">Skin &amp; Spa</button>
+        <button class="filter-btn" data-cat="makeup" data-i18n="filter_makeup">Makeup</button>
+      </div>
+
+      <div id="serviceGroups">
+
+        <div class="service-group" data-cat="hair">
+          <h3 class="service-group__title" data-i18n="group_hair">Hair</h3>
+
+          <div class="service-row" data-name="Signature Haircut" data-price="45" data-duration="45 min">
+            <img src="https://images.pexels.com/photos/3992863/pexels-photo-3992863.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Signature Haircut">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_1_t">Signature Haircut</h4>
+              <p data-i18n="srv_1_p">Precision cut with wash and styling consultation.</p>
+              <span class="service-row__meta">$45 <span>· 45 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Hair Coloring" data-price="120" data-duration="120 min">
+            <img src="https://images.pexels.com/photos/3993326/pexels-photo-3993326.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Hair Coloring">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_2_t">Hair Coloring</h4>
+              <p data-i18n="srv_2_p">Full color, balayage or root touch-up.</p>
+              <span class="service-row__meta">$120 <span>· 120 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Hair Styling" data-price="35" data-duration="40 min">
+            <img src="https://images.pexels.com/photos/3992879/pexels-photo-3992879.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Hair Styling">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_3_t">Hair Styling</h4>
+              <p data-i18n="srv_3_p">Event-ready blowouts and updos.</p>
+              <span class="service-row__meta">$35 <span>· 40 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+        </div>
+
+        <div class="service-group" data-cat="nails">
+          <h3 class="service-group__title" data-i18n="group_nails">Nails</h3>
+
+          <div class="service-row" data-name="Manicure" data-price="30" data-duration="50 min">
+            <img src="https://images.pexels.com/photos/7755296/pexels-photo-7755296.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Manicure">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_4_t">Manicure</h4>
+              <p data-i18n="srv_4_p">Classic, gel or Russian manicure options.</p>
+              <span class="service-row__meta">$30 <span>· 50 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Pedicure" data-price="40" data-duration="60 min">
+            <img src="https://images.pexels.com/photos/13068361/pexels-photo-13068361.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Pedicure">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_5_t">Pedicure</h4>
+              <p data-i18n="srv_5_p">Spa pedicure with paraffin treatment.</p>
+              <span class="service-row__meta">$40 <span>· 60 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+        </div>
+
+        <div class="service-group" data-cat="brows">
+          <h3 class="service-group__title" data-i18n="group_brows">Brows &amp; Lashes</h3>
+
+          <div class="service-row" data-name="Eyebrow Correction" data-price="25" data-duration="30 min">
+            <img src="https://images.pexels.com/photos/6629525/pexels-photo-6629525.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Eyebrow Correction">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_6_t">Eyebrow Correction</h4>
+              <p data-i18n="srv_6_p">Shaping, tinting and lamination.</p>
+              <span class="service-row__meta">$25 <span>· 30 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Lash Extensions" data-price="70" data-duration="90 min">
+            <img src="https://images.pexels.com/photos/20309789/pexels-photo-20309789.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Lash Extensions">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_7_t">Lash Extensions</h4>
+              <p data-i18n="srv_7_p">Classic, hybrid or volume sets.</p>
+              <span class="service-row__meta">$70 <span>· 90 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+        </div>
+
+        <div class="service-group" data-cat="skin">
+          <h3 class="service-group__title" data-i18n="group_skin">Skin &amp; Spa</h3>
+
+          <div class="service-row" data-name="Facial Care" data-price="65" data-duration="60 min">
+            <img src="https://images.pexels.com/photos/6187421/pexels-photo-6187421.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Facial Care">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_8_t">Facial Care</h4>
+              <p data-i18n="srv_8_p">Deep-cleansing facial tailored to skin type.</p>
+              <span class="service-row__meta">$65 <span>· 60 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Relaxing Massage" data-price="75" data-duration="60 min">
+            <img src="https://images.pexels.com/photos/6187430/pexels-photo-6187430.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Relaxing Massage">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_9_t">Relaxing Massage</h4>
+              <p data-i18n="srv_9_p">Full-body massage to release tension.</p>
+              <span class="service-row__meta">$75 <span>· 60 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="SPA Ritual" data-price="140" data-duration="120 min">
+            <img src="https://images.pexels.com/photos/6187852/pexels-photo-6187852.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="SPA Ritual">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_10_t">SPA Ritual</h4>
+              <p data-i18n="srv_10_p">A two-hour full-body spa escape.</p>
+              <span class="service-row__meta">$140 <span>· 120 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+        </div>
+
+        <div class="service-group" data-cat="makeup">
+          <h3 class="service-group__title" data-i18n="group_makeup">Makeup</h3>
+
+          <div class="service-row" data-name="Makeup" data-price="55" data-duration="50 min">
+            <img src="https://images.pexels.com/photos/7446920/pexels-photo-7446920.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Makeup">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_11_t">Makeup</h4>
+              <p data-i18n="srv_11_p">Day, evening or bridal makeup application.</p>
+              <span class="service-row__meta">$55 <span>· 50 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+
+          <div class="service-row" data-name="Laser Hair Removal" data-price="90" data-duration="40 min">
+            <img src="https://images.pexels.com/photos/6629536/pexels-photo-6629536.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Laser Hair Removal">
+            <div class="service-row__body">
+              <h4 data-i18n="srv_12_t">Laser Hair Removal</h4>
+              <p data-i18n="srv_12_p">Diode laser treatment, all skin tones.</p>
+              <span class="service-row__meta">$90 <span>· 40 min</span></span>
+            </div>
+            <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="continue-bar" id="continueBar">
+  <div class="continue-bar__info">
+    <strong id="continueCount">0 <span data-i18n="selected_label">selected</span></strong>
+    <span id="continueTotal">$0</span>
+  </div>
+  <a href="specialists.html" class="btn btn--gold" id="continueBtn" data-i18n="continue_btn">Continue</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
