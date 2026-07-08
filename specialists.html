@@ -28,16 +28,20 @@
     </a>
     <span class="page-header__title" data-i18n="specialists_page_title">Choose a Specialist</span>
     <div class="header__actions">
-      <select class="lang-select icon-btn" id="langSelect" aria-label="Choose language">
-        <option value="en">EN</option>
-        <option value="ru">RU</option>
-        <option value="kk">KZ</option>
-        <option value="ky">KG</option>
-        <option value="uz">UZ</option>
-      </select>
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
-        <i class="fa-regular fa-moon"></i>
-      </button>
+      <div class="theme-switch" id="themeSwitch" role="group" aria-label="Toggle theme">
+        <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="lang-select-wrap">
+        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
+        <select class="lang-select" id="langSelect" aria-label="Choose language">
+          <option value="en">EN</option>
+          <option value="ru">RU 🇷🇺</option>
+          <option value="kk">KZ 🇰🇿</option>
+          <option value="ky">KG 🇰🇬</option>
+          <option value="uz">UZ 🇺🇿</option>
+        </select>
+      </div>
     </div>
   </div>
 </header>

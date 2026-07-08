@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Aurelie — Beauty Studio</title>
+<meta name="description" content="About Aurelie Beauty Studio — our story, our team, our work, and how to find us.">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark"><span class="loader__glyph">A</span></div>
+  <div class="loader__line"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ============ SIMPLE SUB-PAGE HEADER ============ -->
+<header class="header" id="header">
+  <div class="container header__inner">
+    <a href="menu.html" class="page-back" aria-label="Back to menu">
+      <i class="fa-solid fa-arrow-left"></i>
+      <span data-i18n="back_to_menu">Menu</span>
+    </a>
+    <span class="page-header__title" data-i18n="about_page_title">About Us</span>
+    <div class="header__actions">
+      <div class="theme-switch" id="themeSwitch" role="group" aria-label="Toggle theme">
+        <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="lang-select-wrap">
+        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
+        <select class="lang-select" id="langSelect" aria-label="Choose language">
+          <option value="en">EN</option>
+          <option value="ru">RU 🇷🇺</option>
+          <option value="kk">KZ 🇰🇿</option>
+          <option value="ky">KG 🇰🇬</option>
+          <option value="uz">UZ 🇺🇿</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="hero__media" data-parallax>
+      <img src="https://images.pexels.com/photos/3992863/pexels-photo-3992863.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Interior of Aurelie beauty studio" class="hero__image" loading="eager">
+      <div class="hero__scrim"></div>
+    </div>
+
+    <div class="container hero__content">
+      <p class="eyebrow reveal" data-i18n="hero_eyebrow">— Est. 2014 · Downtown Studio</p>
+      <h1 class="hero__title reveal">
+        <span data-i18n="hero_title_1">Beauty, considered</span><br>
+        <span class="hero__title-italic" data-i18n="hero_title_2">down to the finest detail.</span>
+      </h1>
+      <p class="hero__subtitle reveal" data-i18n="hero_subtitle">A private studio for hair, skin, nails and spa rituals — crafted by certified specialists, in an atmosphere built for stillness.</p>
+
+      <div class="hero__cta reveal">
+        <a href="services.html" class="btn btn--gold btn--lg">
+          <span data-i18n="hero_cta_book">Book Appointment</span>
+        </a>
+        <a href="tel:+15551234567" class="btn btn--ghost btn--lg">
+          <i class="fa-solid fa-phone"></i>
+          <span data-i18n="hero_cta_call">Call Now</span>
+        </a>
+      </div>
+
+      <div class="hero__badges reveal">
+        <div class="badge"><i class="fa-solid fa-award"></i><span data-i18n="badge_certified">Certified Specialists</span></div>
+        <div class="badge"><i class="fa-solid fa-leaf"></i><span data-i18n="badge_premium">Premium Cosmetics</span></div>
+        <div class="badge"><i class="fa-solid fa-shield-heart"></i><span data-i18n="badge_sterile">Sterile Equipment</span></div>
+      </div>
+    </div>
+
+    <div class="hero__stats">
+      <div class="container stats__grid">
+        <div class="stat">
+          <span class="stat__num" data-count="10">0</span><span class="stat__suffix">+</span>
+          <p data-i18n="stat_years">Years Experience</p>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="5000">0</span><span class="stat__suffix">+</span>
+          <p data-i18n="stat_clients">Happy Clients</p>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="4.9" data-decimal="1">0</span>
+          <p data-i18n="stat_rating">Average Rating</p>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="10000">0</span><span class="stat__suffix">+</span>
+          <p data-i18n="stat_procedures">Procedures Done</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section about" id="about">
+    <div class="container about__grid">
+      <div class="about__media reveal-left">
+        <img src="https://images.pexels.com/photos/13068361/pexels-photo-13068361.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Aurelie studio interior" class="about__image">
+        <div class="about__image-accent"></div>
+        <div class="about__floating-card">
+          <i class="fa-solid fa-quote-left"></i>
+          <p data-i18n="about_quote">"We don't chase trends. We refine what already suits you."</p>
+          <span data-i18n="about_quote_author">— Camille Laurent, Founder</span>
+        </div>
+      </div>
+
+      <div class="about__content reveal-right">
+        <p class="eyebrow" data-i18n="about_eyebrow">— Our Story</p>
+        <h2 class="section__title" data-i18n="about_title">A studio built around quiet confidence</h2>
+        <p class="about__text" data-i18n="about_text">Aurelie began in 2014 as a two-chair studio with a simple idea: beauty care should feel like a ritual, not a transaction. A decade later, we're a full-service salon trusted by thousands of clients — still guided by the same attention to detail, unhurried pace, and honest recommendations.</p>
+
+        <ul class="about__values">
+          <li><i class="fa-solid fa-circle-check"></i><span data-i18n="about_val_1">Individual consultation before every service</span></li>
+          <li><i class="fa-solid fa-circle-check"></i><span data-i18n="about_val_2">Only professional-grade, cruelty-free products</span></li>
+          <li><i class="fa-solid fa-circle-check"></i><span data-i18n="about_val_3">Continual training on modern techniques</span></li>
+        </ul>
+
+        <div class="timeline">
+          <div class="timeline__item">
+            <span class="timeline__num">01</span>
+            <div><h4 data-i18n="tl_1_title">2014 — First Chair</h4><p data-i18n="tl_1_text">Opened our first two-chair studio downtown.</p></div>
+          </div>
+          <div class="timeline__item">
+            <span class="timeline__num">02</span>
+            <div><h4 data-i18n="tl_2_title">2018 — Full Studio</h4><p data-i18n="tl_2_text">Expanded into hair, nails, skin and spa services.</p></div>
+          </div>
+          <div class="timeline__item">
+            <span class="timeline__num">03</span>
+            <div><h4 data-i18n="tl_3_title">2026 — 5,000+ Clients</h4><p data-i18n="tl_3_text">A trusted name with a team of twelve specialists.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section gallery" id="gallery">
+    <div class="container">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="gallery_eyebrow">— Portfolio</p>
+        <h2 class="section__title" data-i18n="gallery_title">Recent work</h2>
+      </div>
+
+      <div class="gallery__filters reveal">
+        <button class="filter-btn is-active" data-filter="all" data-i18n="filter_all">All</button>
+        <button class="filter-btn" data-filter="hair" data-i18n="filter_hair">Hair</button>
+        <button class="filter-btn" data-filter="nails" data-i18n="filter_nails">Nails</button>
+        <button class="filter-btn" data-filter="skin" data-i18n="filter_skin">Skin</button>
+        <button class="filter-btn" data-filter="makeup" data-i18n="filter_makeup">Makeup</button>
+      </div>
+
+      <div class="masonry" id="masonry">
+        <div class="masonry__item reveal" data-cat="hair"><img src="https://images.pexels.com/photos/3992873/pexels-photo-3992873.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Hair styling portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal masonry__item--tall" data-cat="nails"><img src="https://images.pexels.com/photos/7755296/pexels-photo-7755296.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Manicure portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal" data-cat="skin"><img src="https://images.pexels.com/photos/6187848/pexels-photo-6187848.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Skin care portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal" data-cat="makeup"><img src="https://images.pexels.com/photos/20309789/pexels-photo-20309789.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Makeup portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal masonry__item--tall" data-cat="hair"><img src="https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Hair coloring portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal" data-cat="nails"><img src="https://images.pexels.com/photos/13068361/pexels-photo-13068361.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Nail art portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal" data-cat="skin"><img src="https://images.pexels.com/photos/6629536/pexels-photo-6629536.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Facial treatment portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+        <div class="masonry__item reveal masonry__item--tall" data-cat="makeup"><img src="https://images.pexels.com/photos/7446920/pexels-photo-7446920.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Makeup artistry portfolio photo" class="gallery-img" loading="lazy"><button class="masonry__zoom" aria-label="Open image"><i class="fa-solid fa-expand"></i></button></div>
+      </div>
+
+      <div class="before-after reveal">
+        <p class="eyebrow" data-i18n="ba_eyebrow">— Transformation</p>
+        <h3 class="section__title section__title--sm" data-i18n="ba_title">Before &amp; after</h3>
+        <div class="ba-slider" id="baSlider">
+          <img src="https://images.pexels.com/photos/3993320/pexels-photo-3993320.jpeg?auto=compress&cs=tinysrgb&w=900" alt="After: styled result" class="ba-slider__img ba-slider__img--after">
+          <img src="https://images.pexels.com/photos/3992861/pexels-photo-3992861.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Before: natural state" class="ba-slider__img ba-slider__img--before" id="baBefore">
+          <input type="range" min="0" max="100" value="50" class="ba-slider__range" id="baRange" aria-label="Before after comparison slider">
+          <div class="ba-slider__handle" id="baHandle"><i class="fa-solid fa-left-right"></i></div>
+          <span class="ba-slider__label ba-slider__label--left" data-i18n="ba_before">Before</span>
+          <span class="ba-slider__label ba-slider__label--right" data-i18n="ba_after">After</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section team" id="team">
+    <div class="container">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="team_eyebrow">— Meet The Team</p>
+        <h2 class="section__title" data-i18n="team_title">Your specialists</h2>
+      </div>
+
+      <div class="team__grid">
+        <div class="team-card reveal">
+          <img src="https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Camille Laurent, founder and master stylist" class="team-card__img" loading="lazy" >
+          <h3>Camille Laurent</h3>
+          <span data-i18n="team_1_role">Founder &amp; Master Stylist</span>
+          <p data-i18n="team_1_exp">12 years experience</p>
+          <div class="team-card__social">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <img src="https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Elena Moreau, senior colorist" class="team-card__img" loading="lazy" >
+          <h3>Elena Moreau</h3>
+          <span data-i18n="team_2_role">Senior Colorist</span>
+          <p data-i18n="team_2_exp">9 years experience</p>
+          <div class="team-card__social">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <img src="https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Sofia Marchetti, nail and lash artist" class="team-card__img" loading="lazy" >
+          <h3>Sofia Marchetti</h3>
+          <span data-i18n="team_3_role">Nail &amp; Lash Artist</span>
+          <p data-i18n="team_3_exp">7 years experience</p>
+          <div class="team-card__social">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+        <div class="team-card reveal">
+          <img src="https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Daniel Reyes, skin and spa therapist" class="team-card__img" loading="lazy" >
+          <h3>Daniel Reyes</h3>
+          <span data-i18n="team_4_role">Skin &amp; Spa Therapist</span>
+          <p data-i18n="team_4_exp">8 years experience</p>
+          <div class="team-card__social">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section reviews" id="reviews">
+    <div class="container">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="reviews_eyebrow">— Testimonials</p>
+        <h2 class="section__title" data-i18n="reviews_title">What our clients say</h2>
+      </div>
+
+      <div class="reviews__slider reveal" id="reviewsSlider">
+        <div class="reviews__track" id="reviewsTrack">
+          <div class="review-card">
+            <div class="review-card__stars">★★★★★</div>
+            <p data-i18n="rev_1_text">"The most relaxing salon experience I've had. My colorist actually listened, and the result was exactly what I wanted."</p>
+            <div class="review-card__author"><img src="https://images.pexels.com/photos/3992875/pexels-photo-3992875.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Client photo, Marie D." class="review-card__avatar" loading="lazy"><div><strong>Marie D.</strong><span>June 2026</span></div></div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__stars">★★★★★</div>
+            <p data-i18n="rev_2_text">"Impeccable attention to detail. The studio feels calm and genuinely premium — worth every dollar."</p>
+            <div class="review-card__author"><img src="https://images.pexels.com/photos/6187431/pexels-photo-6187431.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Client photo, Julia S." class="review-card__avatar" loading="lazy"><div><strong>Julia S.</strong><span>May 2026</span></div></div>
+          </div>
+          <div class="review-card">
+            <div class="review-card__stars">★★★★★</div>
+            <p data-i18n="rev_3_text">"Booked a spa afternoon for my birthday. Left feeling completely renewed. Already booked my next visit."</p>
+            <div class="review-card__author"><img src="https://images.pexels.com/photos/6187838/pexels-photo-6187838.jpeg?auto=compress&cs=tinysrgb&w=100" alt="Client photo, Anna K." class="review-card__avatar" loading="lazy"><div><strong>Anna K.</strong><span>April 2026</span></div></div>
+          </div>
+        </div>
+        <div class="reviews__dots" id="reviewsDots"></div>
+      </div>
+    </div>
+  </section>
+  <section class="section contact" id="contact">
+    <div class="container contact__grid">
+      <div class="reveal-left">
+        <p class="eyebrow" data-i18n="contact_eyebrow">— Get In Touch</p>
+        <h2 class="section__title" data-i18n="contact_title">Visit or reach us</h2>
+
+        <div class="contact__list">
+          <div class="contact__item"><i class="fa-solid fa-location-dot"></i><div><strong data-i18n="contact_address_l">Address</strong><span>128 Maple Avenue, Suite 3, Springfield</span></div></div>
+          <div class="contact__item"><i class="fa-solid fa-phone"></i><div><strong data-i18n="contact_phone_l">Phone</strong><span>+1 (555) 123-4567</span></div></div>
+          <div class="contact__item"><i class="fa-solid fa-envelope"></i><div><strong data-i18n="contact_email_l">Email</strong><span>hello@aureliestudio.com</span></div></div>
+          <div class="contact__item"><i class="fa-regular fa-clock"></i><div><strong data-i18n="contact_hours_l">Hours</strong><span data-i18n="contact_hours_v">Mon–Sat: 9:00–20:00, Sun: 10:00–18:00</span></div></div>
+        </div>
+
+        <div class="contact__socials">
+          <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="contact__map reveal-right">
+        <div class="map-placeholder">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span data-i18n="map_placeholder">Google Map — embed your location here</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="menu.html" class="logo logo--footer">
+        <span class="logo__mark">A</span><span class="logo__text">Aurelie</span>
+      </a>
+      <p data-i18n="footer_tagline">A private studio for hair, skin, nails and spa — since 2014.</p>
+      <div class="contact__socials">
+        <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+    </div>
+
+    <div class="footer__col">
+      <h4 data-i18n="footer_links">Quick Links</h4>
+      <a href="services.html" data-i18n="nav_services">Services</a>
+      <a href="specialists.html" data-i18n="nav_specialists">Specialists</a>
+      <a href="menu.html" data-i18n="nav_home">Home</a>
+    </div>
+
+    <div class="footer__col">
+      <h4 data-i18n="footer_contacts">Contacts</h4>
+      <span>128 Maple Avenue, Springfield</span>
+      <span>+1 (555) 123-4567</span>
+      <span>hello@aureliestudio.com</span>
+      <span data-i18n="contact_hours_v">Mon–Sat: 9:00–20:00, Sun: 10:00–18:00</span>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <span>&copy; <span id="year"></span> Aurelie Beauty Studio. <span data-i18n="footer_rights">All rights reserved.</span></span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <i class="fa-solid fa-arrow-up"></i>
+</button>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close image"><i class="fa-solid fa-xmark"></i></button>
+  <img class="lightbox__img" id="lightboxImg" src="" alt="">
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

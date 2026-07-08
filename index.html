@@ -65,17 +65,21 @@
     </nav>
 
     <div class="header__actions">
-      <select class="lang-select icon-btn" id="langSelect" aria-label="Choose language">
-        <option value="en">EN</option>
-        <option value="ru">RU</option>
-        <option value="kk">KZ</option>
-        <option value="ky">KG</option>
-        <option value="uz">UZ</option>
-      </select>
-      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">
-        <i class="fa-regular fa-moon"></i>
-      </button>
-      <a href="services.html" class="btn btn--gold btn--sm" data-i18n="nav_book">Book Now</a>
+      <div class="theme-switch" id="themeSwitch" role="group" aria-label="Toggle theme">
+        <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="lang-select-wrap">
+        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
+        <select class="lang-select" id="langSelect" aria-label="Choose language">
+          <option value="en">EN</option>
+          <option value="ru">RU 🇷🇺</option>
+          <option value="kk">KZ 🇰🇿</option>
+          <option value="ky">KG 🇰🇬</option>
+          <option value="uz">UZ 🇺🇿</option>
+        </select>
+      </div>
+      <a href="menu.html" class="btn btn--gold btn--sm" data-i18n="nav_book">Book Now</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
@@ -95,7 +99,7 @@
     <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
-  <a href="services.html" class="btn btn--gold btn--lg mobile-nav__cta" data-i18n="nav_book">Book Now</a>
+  <a href="menu.html" class="btn btn--gold btn--lg mobile-nav__cta" data-i18n="nav_book">Book Now</a>
 </div>
 
 <main id="home">
@@ -116,7 +120,7 @@
       <p class="hero__subtitle reveal" data-i18n="hero_subtitle">A private studio for hair, skin, nails and spa rituals — crafted by certified specialists, in an atmosphere built for stillness.</p>
 
       <div class="hero__cta reveal">
-        <a href="services.html" class="btn btn--gold btn--lg">
+        <a href="menu.html" class="btn btn--gold btn--lg">
           <span data-i18n="hero_cta_book">Book Appointment</span>
         </a>
         <a href="tel:+15551234567" class="btn btn--ghost btn--lg">
@@ -234,7 +238,7 @@
             <h3 data-i18n="srv_1_t">Signature Haircut</h3>
             <p data-i18n="srv_1_p">Precision cut with wash and styling consultation.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 45 min</span><span class="price">$45</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -244,7 +248,7 @@
             <h3 data-i18n="srv_2_t">Hair Coloring</h3>
             <p data-i18n="srv_2_p">Full color, balayage or root touch-up.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 120 min</span><span class="price">$120</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -254,7 +258,7 @@
             <h3 data-i18n="srv_3_t">Hair Styling</h3>
             <p data-i18n="srv_3_p">Event-ready blowouts and updos.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 40 min</span><span class="price">$35</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -264,7 +268,7 @@
             <h3 data-i18n="srv_4_t">Manicure</h3>
             <p data-i18n="srv_4_p">Classic, gel or Russian manicure options.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 50 min</span><span class="price">$30</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -274,7 +278,7 @@
             <h3 data-i18n="srv_5_t">Pedicure</h3>
             <p data-i18n="srv_5_p">Spa pedicure with paraffin treatment.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 60 min</span><span class="price">$40</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -284,7 +288,7 @@
             <h3 data-i18n="srv_6_t">Eyebrow Correction</h3>
             <p data-i18n="srv_6_p">Shaping, tinting and lamination.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 30 min</span><span class="price">$25</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -294,7 +298,7 @@
             <h3 data-i18n="srv_7_t">Lash Extensions</h3>
             <p data-i18n="srv_7_p">Classic, hybrid or volume sets.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 90 min</span><span class="price">$70</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -304,7 +308,7 @@
             <h3 data-i18n="srv_8_t">Facial Care</h3>
             <p data-i18n="srv_8_p">Deep-cleansing facial tailored to skin type.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 60 min</span><span class="price">$65</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -314,7 +318,7 @@
             <h3 data-i18n="srv_9_t">Relaxing Massage</h3>
             <p data-i18n="srv_9_p">Full-body massage to release tension.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 60 min</span><span class="price">$75</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -324,7 +328,7 @@
             <h3 data-i18n="srv_10_t">SPA Ritual</h3>
             <p data-i18n="srv_10_p">A two-hour full-body spa escape.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 120 min</span><span class="price">$140</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -334,7 +338,7 @@
             <h3 data-i18n="srv_11_t">Makeup</h3>
             <p data-i18n="srv_11_p">Day, evening or bridal makeup application.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 50 min</span><span class="price">$55</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -344,7 +348,7 @@
             <h3 data-i18n="srv_12_t">Laser Hair Removal</h3>
             <p data-i18n="srv_12_p">Diode laser treatment, all skin tones.</p>
             <div class="service-card__meta"><span><i class="fa-regular fa-clock"></i> 40 min</span><span class="price">$90</span></div>
-            <a href="services.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
+            <a href="menu.html" class="btn btn--outline btn--sm" data-i18n="btn_book">Book</a>
           </div>
         </article>
 
@@ -366,7 +370,7 @@
             <span class="offer-banner__tag" data-i18n="offer_1_tag">Summer Glow</span>
             <h3 data-i18n="offer_1_title">20% off all facial treatments</h3>
             <p data-i18n="offer_1_text">Valid throughout July for new and returning clients.</p>
-            <a href="services.html" class="btn btn--gold btn--sm" data-i18n="btn_claim">Claim Offer</a>
+            <a href="menu.html" class="btn btn--gold btn--sm" data-i18n="btn_claim">Claim Offer</a>
           </div>
         </div>
 
@@ -381,7 +385,7 @@
           <i class="fa-solid fa-user-plus"></i>
           <h4 data-i18n="offer_3_title">First Visit Discount</h4>
           <p data-i18n="offer_3_text">New clients save 15% on their first appointment.</p>
-          <a href="services.html" class="link-arrow" data-i18n="btn_book">Book <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="menu.html" class="link-arrow" data-i18n="btn_book">Book <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
     </div>
@@ -402,13 +406,13 @@
           <span data-i18n="pt_price">Price</span>
           <span></span>
         </div>
-        <div class="price-table__row"><span data-i18n="srv_1_t">Signature Haircut</span><span>45 min</span><span>$45</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_2_t">Hair Coloring</span><span>120 min</span><span>$120</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_4_t">Manicure</span><span>50 min</span><span>$30</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_5_t">Pedicure</span><span>60 min</span><span>$40</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_7_t">Lash Extensions</span><span>90 min</span><span>$70</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_8_t">Facial Care</span><span>60 min</span><span>$65</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
-        <div class="price-table__row"><span data-i18n="srv_10_t">SPA Ritual</span><span>120 min</span><span>$140</span><a href="services.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_1_t">Signature Haircut</span><span>45 min</span><span>$45</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_2_t">Hair Coloring</span><span>120 min</span><span>$120</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_4_t">Manicure</span><span>50 min</span><span>$30</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_5_t">Pedicure</span><span>60 min</span><span>$40</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_7_t">Lash Extensions</span><span>90 min</span><span>$70</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_8_t">Facial Care</span><span>60 min</span><span>$65</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
+        <div class="price-table__row"><span data-i18n="srv_10_t">SPA Ritual</span><span>120 min</span><span>$140</span><a href="menu.html" class="btn btn--outline btn--xs" data-i18n="btn_book">Book</a></div>
       </div>
     </div>
   </section>
@@ -667,7 +671,7 @@
       <a href="#about" data-i18n="nav_about">About</a>
       <a href="#services" data-i18n="nav_services">Services</a>
       <a href="#gallery" data-i18n="nav_gallery">Gallery</a>
-      <a href="services.html" data-i18n="nav_book">Book Now</a>
+      <a href="menu.html" data-i18n="nav_book">Book Now</a>
     </div>
 
     <div class="footer__col">
@@ -699,7 +703,7 @@
 <div class="floating-buttons">
   <a href="https://wa.me/15551234567" class="fab fab--whatsapp" aria-label="Chat on WhatsApp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
   <a href="tel:+15551234567" class="fab fab--call" aria-label="Call the studio"><i class="fa-solid fa-phone"></i></a>
-  <a href="services.html" class="fab fab--book" aria-label="Book appointment"><i class="fa-solid fa-calendar-check"></i></a>
+  <a href="menu.html" class="fab fab--book" aria-label="Book appointment"><i class="fa-solid fa-calendar-check"></i></a>
 </div>
 
 <!-- Mobile-only sticky CTA bar (hidden on desktop) -->
@@ -710,7 +714,7 @@
   <a href="https://wa.me/15551234567" class="mobile-sticky-cta__item" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
     <i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span>
   </a>
-  <a href="services.html" class="mobile-sticky-cta__item mobile-sticky-cta__item--primary" aria-label="Book appointment">
+  <a href="menu.html" class="mobile-sticky-cta__item mobile-sticky-cta__item--primary" aria-label="Book appointment">
     <i class="fa-solid fa-calendar-check"></i><span data-i18n="nav_book">Book Now</span>
   </a>
 </div>

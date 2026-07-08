@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurelie — Online Booking</title>
+<meta name="description" content="Aurelie Beauty Studio — choose a service, choose a specialist, or learn more about us.">
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark"><span class="loader__glyph">A</span></div>
+  <div class="loader__line"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ============ HEADER (entry screen: no back arrow) ============ -->
+<header class="header" id="header">
+  <div class="container header__inner" style="justify-content:flex-end;">
+    <div class="header__actions">
+      <div class="theme-switch" id="themeSwitch" role="group" aria-label="Toggle theme">
+        <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="lang-select-wrap">
+        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
+        <select class="lang-select" id="langSelect" aria-label="Choose language">
+          <option value="en">EN</option>
+          <option value="ru">RU 🇷🇺</option>
+          <option value="kk">KZ 🇰🇿</option>
+          <option value="ky">KG 🇰🇬</option>
+          <option value="uz">UZ 🇺🇿</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="menu-screen">
+    <div class="container">
+
+      <div class="menu-screen__intro reveal">
+        <img src="https://images.pexels.com/photos/3992863/pexels-photo-3992863.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Aurelie Beauty Studio" class="menu-screen__avatar">
+        <h1 class="menu-screen__name">Aurelie Beauty Studio</h1>
+        <p class="menu-screen__tag" data-i18n="menu_tag">Hair · Nails · Skin · Spa</p>
+        <div class="menu-screen__address">
+          <i class="fa-solid fa-location-dot"></i>
+          <span>128 Maple Avenue, Suite 3, Springfield</span>
+        </div>
+        <a href="https://instagram.com/aurelie.studio" target="_blank" rel="noopener" class="menu-screen__social">
+          <i class="fa-brands fa-instagram"></i> @aurelie.studio
+        </a>
+      </div>
+
+      <div class="menu-buttons">
+        <a href="services.html" class="menu-btn reveal">
+          <span class="menu-btn__icon"><i class="fa-solid fa-list-check"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-i18n="menu_btn_service_t">Choose a Service</h3>
+            <p data-i18n="menu_btn_service_p">Browse our full treatment menu</p>
+          </span>
+          <i class="fa-solid fa-chevron-right menu-btn__arrow"></i>
+        </a>
+
+        <a href="specialists.html" class="menu-btn reveal">
+          <span class="menu-btn__icon"><i class="fa-solid fa-user-group"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-i18n="menu_btn_specialist_t">Choose a Specialist</h3>
+            <p data-i18n="menu_btn_specialist_p">Pick your favorite master</p>
+          </span>
+          <i class="fa-solid fa-chevron-right menu-btn__arrow"></i>
+        </a>
+
+        <a href="about.html" class="menu-btn reveal">
+          <span class="menu-btn__icon"><i class="fa-solid fa-circle-info"></i></span>
+          <span class="menu-btn__text">
+            <h3 data-i18n="menu_btn_about_t">About Us</h3>
+            <p data-i18n="menu_btn_about_p">Our story, team, work and contacts</p>
+          </span>
+          <i class="fa-solid fa-chevron-right menu-btn__arrow"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

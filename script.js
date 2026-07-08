@@ -113,22 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---------- DARK / LIGHT MODE ---------- */
-  const themeToggle = document.getElementById('themeToggle');
+  /* ---------- DARK / LIGHT MODE (segmented sun/moon switch) ---------- */
+  const themeSwitch = document.getElementById('themeSwitch');
   const root = document.documentElement;
-  const savedTheme = localStorageSafeGet('aurelie-theme');
-  if (savedTheme) root.setAttribute('data-theme', savedTheme);
-  updateThemeIcon();
+  const savedTheme = localStorageSafeGet('aurelie-theme') || 'light';
+  root.setAttribute('data-theme', savedTheme);
 
-  themeToggle.addEventListener('click', () => {
-    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    localStorageSafeSet('aurelie-theme', next);
-    updateThemeIcon();
-  });
-  function updateThemeIcon(){
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    themeToggle.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-regular fa-moon"></i>';
+  if (themeSwitch){
+    const themeBtns = themeSwitch.querySelectorAll('.theme-switch__btn');
+    function updateThemeButtons(){
+      const current = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      themeBtns.forEach(btn => btn.classList.toggle('is-active', btn.dataset.themeChoice === current));
+    }
+    updateThemeButtons();
+    themeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const choice = btn.dataset.themeChoice;
+        root.setAttribute('data-theme', choice);
+        localStorageSafeSet('aurelie-theme', choice);
+        updateThemeButtons();
+      });
+    });
   }
   // Safe localStorage wrapper (works in normal browser use; artifacts environments may restrict it)
   function localStorageSafeGet(key){ try { return localStorage.getItem(key); } catch(e){ return null; } }
@@ -753,18 +758,30 @@ document.addEventListener('DOMContentLoaded', () => {
     return condition;
   }
 
+  /* ---------- SHARED BOOKING STATE (services.html + specialists.html) ---------- */
+  function getSelectedServices(){
+    try { return JSON.parse(localStorageSafeGet('aurelie_selected_services') || '[]'); }
+    catch(e){ return []; }
+  }
+  function saveSelectedServices(list){ localStorageSafeSet('aurelie_selected_services', JSON.stringify(list)); }
+  function getChosenSpecialist(){ return localStorageSafeGet('aurelie_selected_specialist'); }
+  function saveChosenSpecialist(name){ localStorageSafeSet('aurelie_selected_specialist', name); }
+
+  function sendBookingToWhatsapp(){
+    const services = getSelectedServices();
+    const specialist = getChosenSpecialist() || 'Any specialist';
+    const serviceText = services.length ? services.map(s => s.name).join(', ') : 'not specified';
+    const message = `Hello! I'd like to book:\nService(s): ${serviceText}\nSpecialist: ${specialist}`;
+    const url = 'https://wa.me/15551234567?text=' + encodeURIComponent(message);
+    window.open(url, '_blank');
+  }
+
   /* ---------- SERVICE SELECTION PAGE (services.html) ---------- */
   const serviceRows = document.querySelectorAll('.service-row');
   const continueBar = document.getElementById('continueBar');
   const continueCount = document.getElementById('continueCount');
   const continueTotal = document.getElementById('continueTotal');
   const continueBtn = document.getElementById('continueBtn');
-
-  function getSelectedServices(){
-    try { return JSON.parse(localStorageSafeGet('aurelie_selected_services') || '[]'); }
-    catch(e){ return []; }
-  }
-  function saveSelectedServices(list){ localStorageSafeSet('aurelie_selected_services', JSON.stringify(list)); }
 
   if (serviceRows.length){
     let selected = getSelectedServices();
@@ -781,6 +798,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (continueCount) continueCount.innerHTML = selected.length + ' <span data-i18n="selected_label">selected</span>';
       if (continueTotal) continueTotal.textContent = '$' + total;
       if (continueBar) continueBar.classList.toggle('is-visible', selected.length > 0);
+      if (continueBtn){
+        if (getChosenSpecialist()){
+          continueBtn.textContent = translations[currentLang]?.finish_btn || 'Send to WhatsApp';
+          continueBtn.setAttribute('href', '#');
+          continueBtn.dataset.action = 'finish';
+        } else {
+          continueBtn.textContent = translations[currentLang]?.continue_btn || 'Continue';
+          continueBtn.setAttribute('href', 'specialists.html');
+          continueBtn.dataset.action = 'next';
+        }
+      }
     }
 
     serviceRows.forEach(row => {
@@ -794,6 +822,16 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
     refreshServiceUI();
+
+    if (continueBtn){
+      continueBtn.addEventListener('click', (e) => {
+        if (continueBtn.dataset.action === 'finish'){
+          e.preventDefault();
+          sendBookingToWhatsapp();
+        }
+        // otherwise let the link navigate normally to specialists.html
+      });
+    }
 
     // Category tabs
     document.querySelectorAll('#categoryTabs .filter-btn').forEach(tab => {
@@ -824,21 +862,36 @@ document.addEventListener('DOMContentLoaded', () => {
   const specialistRows = document.querySelectorAll('.specialist-row');
   const specialistChoice = document.getElementById('specialistChoice');
   const continueBtnSpecialist = document.getElementById('continueBtnSpecialist');
+  const continueBarSpecialist = document.getElementById('continueBarSpecialist');
 
   if (specialistRows.length){
-    let chosenSpecialist = localStorageSafeGet('aurelie_selected_specialist') || 'Any specialist';
+    // Visiting this page always counts as a (possibly default) choice, same as real booking apps
+    let chosenSpecialist = getChosenSpecialist() || 'Any specialist';
+    saveChosenSpecialist(chosenSpecialist);
 
     function refreshSpecialistUI(){
       specialistRows.forEach(row => {
         row.classList.toggle('is-selected', row.dataset.name === chosenSpecialist);
       });
       if (specialistChoice) specialistChoice.textContent = chosenSpecialist;
+      if (continueBarSpecialist) continueBarSpecialist.classList.add('is-visible');
+      if (continueBtnSpecialist){
+        if (getSelectedServices().length > 0){
+          continueBtnSpecialist.textContent = translations[currentLang]?.finish_btn || 'Send to WhatsApp';
+          continueBtnSpecialist.setAttribute('href', '#');
+          continueBtnSpecialist.dataset.action = 'finish';
+        } else {
+          continueBtnSpecialist.textContent = translations[currentLang]?.continue_btn || 'Continue';
+          continueBtnSpecialist.setAttribute('href', 'services.html');
+          continueBtnSpecialist.dataset.action = 'next';
+        }
+      }
     }
 
     specialistRows.forEach(row => {
       row.addEventListener('click', () => {
         chosenSpecialist = row.dataset.name;
-        localStorageSafeSet('aurelie_selected_specialist', chosenSpecialist);
+        saveChosenSpecialist(chosenSpecialist);
         refreshSpecialistUI();
       });
     });
@@ -847,13 +900,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (continueBtnSpecialist){
       continueBtnSpecialist.addEventListener('click', (e) => {
         e.preventDefault();
-        const services = getSelectedServices();
-        const serviceText = services.length
-          ? services.map(s => s.name).join(', ')
-          : 'not specified';
-        const message = `Hello! I'd like to book:\nService(s): ${serviceText}\nSpecialist: ${chosenSpecialist}`;
-        const url = 'https://wa.me/15551234567?text=' + encodeURIComponent(message);
-        window.open(url, '_blank');
+        if (continueBtnSpecialist.dataset.action === 'finish'){
+          sendBookingToWhatsapp();
+        } else {
+          window.location.href = 'services.html';
+        }
       });
     }
   }
