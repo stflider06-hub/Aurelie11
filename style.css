@@ -27,9 +27,9 @@
   --radius-md: 18px;
   --radius-lg: 20px;
 
-  --font-display: 'Playfair Display', serif;
+  --font-display: 'Manrope', sans-serif;
   --font-body: 'Manrope', sans-serif;
-  --font-utility: 'DM Sans', sans-serif;
+  --font-utility: 'Manrope', sans-serif;
 
   --container: 1220px;
   --transition: 0.4s cubic-bezier(.25,.8,.25,1);
@@ -378,7 +378,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .service-card__body h3{ font-size:1.08rem; margin-bottom:8px; }
 .service-card__body p{ font-size:.86rem; color:var(--ink-soft); margin-bottom:16px; min-height:40px; }
 .service-card__meta{ display:flex; justify-content:space-between; align-items:center; font-size:.82rem; color:var(--ink-soft); margin-bottom:18px; font-family:var(--font-utility); }
-.service-card__meta .price{ font-family:var(--font-utility); font-weight:800; font-size:1.1rem; color:var(--gold); }
+.service-card__meta .price{ font-family:var(--font-utility); font-weight:800; font-size:1.1rem; color:var(--ink); }
 .service-card .btn{ width:100%; }
 
 /* ============ OFFERS ============ */
@@ -418,7 +418,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   font-family:var(--font-utility); text-transform:uppercase; letter-spacing:.08em; font-size:.74rem;
   color:var(--ink-soft); background:var(--bg-alt);
 }
-.price-table__row span:nth-child(3){ font-family:var(--font-utility); font-weight:800; color:var(--gold); }
+.price-table__row span:nth-child(3){ font-family:var(--font-utility); font-weight:800; color:var(--ink); }
 
 /* ============ GALLERY ============ */
 .gallery__filters{ display:flex; gap:12px; justify-content:center; margin-bottom:40px; flex-wrap:wrap; }
@@ -699,7 +699,14 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   position:absolute; left:50%; translate:-50% 0;
 }
 @media (max-width:640px){
-  .page-header__title{ font-size:1.05rem; }
+  .header__inner{ gap:10px; }
+  .page-header__title{
+    position:static; translate:none; left:auto;
+    flex:1; min-width:0; text-align:center;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    font-size:.92rem;
+  }
+  .header__actions{ gap:6px; flex-shrink:0; }
 }
 
 /* ============ MAIN MENU SCREEN ============ */
@@ -762,7 +769,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .service-row__body{ flex:1; }
 .service-row__body h4{ font-size:.98rem; margin-bottom:3px; }
 .service-row__body p{ font-size:.8rem; color:var(--ink-soft); margin-bottom:6px; }
-.service-row__meta{ font-size:.86rem; font-weight:700; color:var(--gold); font-family:var(--font-utility); }
+.service-row__meta{ font-size:.86rem; font-weight:700; color:var(--ink); font-family:var(--font-utility); }
 .service-row__meta span{ color:var(--ink-soft); font-weight:500; margin-left:8px; }
 .service-row__check{
   width:26px; height:26px; border-radius:8px; border:1.5px solid var(--line); flex-shrink:0;
@@ -880,7 +887,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .summary-bar__info span{ font-size:.76rem; color:var(--ink-soft); }
 .summary-bar__price{ text-align:right; }
 .summary-bar__price span{ display:block; font-size:.72rem; color:var(--ink-soft); }
-.summary-bar__price strong{ font-family:var(--font-utility); font-weight:800; color:var(--gold); font-size:1.05rem; }
+.summary-bar__price strong{ font-family:var(--font-utility); font-weight:800; color:var(--ink); font-size:1.05rem; }
 
 /* ============ SERVICES SUMMARY PANEL (services.html) ============ */
 .services-summary{
@@ -897,7 +904,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .summary-row{ display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line); font-size:.9rem; }
 .summary-row:last-child{ border-bottom:none; }
 .summary-row__name{ flex:1; }
-.summary-row__price{ font-family:var(--font-utility); font-weight:800; color:var(--gold); margin:0 12px; }
+.summary-row__price{ font-family:var(--font-utility); font-weight:800; color:var(--ink); margin:0 12px; }
 .summary-row__remove{ width:26px; height:26px; border-radius:50%; background:var(--bg-alt); display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:.7rem; flex-shrink:0; }
 .summary-row__remove:hover{ background:var(--beige); color:var(--ink); }
 .services-summary__footer .btn{ width:100%; }
@@ -1010,10 +1017,10 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .review-service-item__body{ flex:1; }
 .review-service-item__body strong{ display:block; font-size:.9rem; }
 .review-service-item__body span{ font-size:.78rem; color:var(--ink-soft); }
-.review-service-item__price{ font-family:var(--font-utility); font-weight:800; color:var(--gold); font-size:.98rem; }
+.review-service-item__price{ font-family:var(--font-utility); font-weight:800; color:var(--ink); font-size:.98rem; }
 
 .review-total{ display:flex; justify-content:space-between; align-items:center; padding-top:14px; margin-top:6px; border-top:1.5px solid var(--line); font-family:var(--font-utility); font-weight:700; font-size:1.15rem; }
-.review-total strong{ color:var(--gold); }
+.review-total strong{ color:var(--ink); }
 
 .review-form{ margin-top:30px; }
 .review-form h3{ font-size:1.1rem; margin-bottom:18px; }
@@ -1099,9 +1106,11 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   .video-wrap__caption h3{ font-size:1.15rem; }
   .hero__cta{ flex-direction:column; align-items:stretch; }
   .hero__cta .btn{ width:100%; }
-  .lang-dropdown__trigger{ padding:6px 10px; }
+  .lang-dropdown__trigger{ padding:6px 8px; }
+  #langDropdownLabel{ display:none; }
   .lang-dropdown__menu{ right:-10px; }
-  .theme-switch__btn{ width:34px; height:34px; }
+  .theme-switch{ padding:3px; }
+  .theme-switch__btn{ width:30px; height:30px; }
   #themeToggle{ width:44px; height:44px; border:1px solid var(--line); }
 
   /* Sticky bottom CTA replaces the floating button stack on small screens */
