@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       about_eyebrow:"— Наша история", about_title:"Студия, построенная на тихой уверенности",
       about_text:"Aurelie началась в 2014 году с двух кресел и простой идеи: уход за собой должен ощущаться как ритуал, а не как транзакция.",
       about_quote:"«Мы не гонимся за трендами. Мы подчёркиваем то, что уже вам идёт»",
-      about_quote_author:"— Камилла Лоран, основательница",
+      about_quote_author:"— Айгерим Осмонова, основательница",
       about_val_1:"Индивидуальная консультация перед каждой процедурой",
       about_val_2:"Только профессиональная, без тестирования на животных косметика",
       about_val_3:"Постоянное обучение современным техникам",
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
       about_eyebrow:"— Біздің тарих", about_title:"Тыныш сенімділікке негізделген студия",
       about_text:"Aurelie 2014 жылы екі креслодан басталды: күтім — мәміле емес, рәсім болуы керек деген қарапайым идеямен.",
       about_quote:"«Біз трендтерге қумаймыз. Сізге лайық нәрсені ғана баса көрсетеміз»",
-      about_quote_author:"— Камилла Лоран, негізін салушы",
+      about_quote_author:"— Айгерим Осмонова, негізін салушы",
       about_val_1:"Әр рәсім алдында жеке кеңес беру",
       about_val_2:"Тек кәсіби, жануарларда сыналмаған косметика",
       about_val_3:"Заманауи әдістерге үздіксіз оқыту",
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
       about_eyebrow:"— Биздин тарых", about_title:"Тынч ишенимге негизделген студия",
       about_text:"Aurelie 2014-жылы эки орундук студия катары башталган: кам көрүү — бүтүм эмес, ырым-жырым сыяктуу сезилиши керек деген жөнөкөй идея менен.",
       about_quote:"«Биз тренддерге кубалабайбыз. Сизге деле жарашкан нерсени эле баса белгилейбиз»",
-      about_quote_author:"— Камилла Лоран, негиздөөчү",
+      about_quote_author:"— Айгерим Осмонова, негиздөөчү",
       about_val_1:"Ар бир жол-жобо алдында жеке консультация",
       about_val_2:"Жаныбарларда сыналбаган кесипкөй косметика гана",
       about_val_3:"Заманбап ыкмаларга үзгүлтүксүз окутуу",
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', () => {
       about_eyebrow:"— Bizning tariximiz", about_title:"Sokin ishonchga asoslangan studiya",
       about_text:"Aurelie 2014-yilda ikki kreslodan boshlangan: parvarish — bitim emas, marosim bo'lishi kerak degan oddiy g'oya bilan.",
       about_quote:"«Biz trendlarga quvmaymiz. Sizga allaqachon mos keladigan narsani ta'kidlaymiz»",
-      about_quote_author:"— Kamil Loran, asoschisi",
+      about_quote_author:"— Aigerim Osmonova, asoschisi",
       about_val_1:"Har bir protseduradan oldin yakka konsultatsiya",
       about_val_2:"Faqat professional, hayvonlarda sinalmagan kosmetika",
       about_val_3:"Zamonaviy usullarga doimiy o'qitish",
@@ -822,10 +822,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- SHARED BOOKING STATE ---------- */
   const SPECIALISTS_DATA = {
     'Any specialist': { photo: null, roleKey:'', expKey:'', roleFallback:'', expFallback:'' },
-    'Camille Laurent': { photo: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_1_role', expKey:'team_1_exp', roleFallback:'Founder & Master Stylist', expFallback:'12 years experience' },
-    'Elena Moreau': { photo: 'https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_2_role', expKey:'team_2_exp', roleFallback:'Senior Colorist', expFallback:'9 years experience' },
-    'Sofia Marchetti': { photo: 'https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_3_role', expKey:'team_3_exp', roleFallback:'Nail & Lash Artist', expFallback:'7 years experience' },
-    'Daniel Reyes': { photo: 'https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_4_role', expKey:'team_4_exp', roleFallback:'Skin & Spa Therapist', expFallback:'8 years experience' }
+    'Айгерим Осмонова': { photo: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_1_role', expKey:'team_1_exp', roleFallback:'Founder & Master Stylist', expFallback:'12 years experience' },
+    'Нургуль Асанова': { photo: 'https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_2_role', expKey:'team_2_exp', roleFallback:'Senior Colorist', expFallback:'9 years experience' },
+    'Жылдыз Мамбетова': { photo: 'https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_3_role', expKey:'team_3_exp', roleFallback:'Nail & Lash Artist', expFallback:'7 years experience' },
+    'Азамат Жумабеков': { photo: 'https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_4_role', expKey:'team_4_exp', roleFallback:'Skin & Spa Therapist', expFallback:'8 years experience' }
   };
 
   const I18N_CALENDAR = {
