@@ -211,12 +211,15 @@
   </section>
 </main>
 
-<div class="continue-bar" id="continueBar">
-  <div class="continue-bar__info">
-    <strong id="continueCount">0 <span data-i18n="selected_label">selected</span></strong>
-    <span id="continueTotal">$0</span>
+<div class="services-summary" id="servicesSummary">
+  <div class="services-summary__header">
+    <span id="summaryCount">0 <span data-i18n="selected_label">selected</span></span>
+    <span id="summaryDuration"></span>
   </div>
-  <a href="specialists.html" class="btn btn--gold" id="continueBtn" data-i18n="continue_btn">Continue</a>
+  <div class="services-summary__list" id="summaryList"></div>
+  <div class="services-summary__footer">
+    <a href="specialists.html" class="btn btn--gold btn--lg" id="continueBtn" data-i18n="choose_btn">Choose</a>
+  </div>
 </div>
 
 <script src="script.js"></script>

@@ -24,7 +24,6 @@
   <div class="container header__inner">
     <a href="menu.html" class="page-back" aria-label="Back to menu">
       <i class="fa-solid fa-arrow-left"></i>
-      <span data-i18n="back_to_menu">Menu</span>
     </a>
     <span class="page-header__title" data-i18n="specialists_page_title">Choose a Specialist</span>
     <div class="header__actions">
@@ -50,64 +49,130 @@
   <section class="section has-continue-bar" style="padding-top:140px;">
     <div class="container" style="max-width:700px;">
 
-      <div class="specialist-row specialist-row--any reveal" data-name="Any specialist">
-        <div class="specialist-row__img"><i class="fa-solid fa-user-group"></i></div>
-        <div class="specialist-row__body">
-          <h4 data-i18n="any_specialist_t">Any specialist</h4>
-          <p class="specialist-row__desc" data-i18n="any_specialist_p">We'll match you with the best available master</p>
+      <div class="specialist-block reveal" data-name="Any specialist" data-any="true">
+        <div class="specialist-row specialist-row--any">
+          <div class="specialist-row__img"><i class="fa-solid fa-user-group"></i></div>
+          <div class="specialist-row__body">
+            <h4 data-i18n="any_specialist_t">Any specialist</h4>
+            <p class="specialist-row__desc" data-i18n="any_specialist_p">We'll match you with the best available master</p>
+          </div>
         </div>
-        <div class="specialist-row__radio"></div>
+        <div class="date-strip-wrap">
+          <div class="date-strip-header">
+            <span class="date-strip-month"></span>
+            <div class="date-strip-nav">
+              <button class="date-nav-btn" data-dir="-1" aria-label="Previous week"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="date-nav-btn" data-dir="1" aria-label="Next week"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="date-strip"></div>
+          <div class="time-grid"></div>
+        </div>
       </div>
 
-      <div class="specialist-row reveal" data-name="Camille Laurent">
-        <img src="https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Camille Laurent">
-        <div class="specialist-row__body">
-          <h4>Camille Laurent</h4>
-          <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 4.9 · <span data-i18n="team_1_exp">12 years experience</span></div>
-          <p class="specialist-row__desc" data-i18n="team_1_role">Founder &amp; Master Stylist — haircuts, coloring and styling.</p>
+      <div class="specialist-block reveal" data-name="Camille Laurent">
+        <div class="specialist-row">
+          <img src="https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Camille Laurent">
+          <div class="specialist-row__body">
+            <h4>Camille Laurent</h4>
+            <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 4.9 · <span data-i18n="team_1_exp">12 years experience</span></div>
+            <p class="specialist-row__desc" data-i18n="team_1_role">Founder &amp; Master Stylist — haircuts, coloring and styling.</p>
+          </div>
         </div>
-        <div class="specialist-row__radio"></div>
+        <div class="date-strip-wrap">
+          <div class="date-strip-header">
+            <span class="date-strip-month"></span>
+            <div class="date-strip-nav">
+              <button class="date-nav-btn" data-dir="-1" aria-label="Previous week"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="date-nav-btn" data-dir="1" aria-label="Next week"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="date-strip"></div>
+          <div class="time-grid"></div>
+        </div>
       </div>
 
-      <div class="specialist-row reveal" data-name="Elena Moreau">
-        <img src="https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Elena Moreau">
-        <div class="specialist-row__body">
-          <h4>Elena Moreau</h4>
-          <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 5.0 · <span data-i18n="team_2_exp">9 years experience</span></div>
-          <p class="specialist-row__desc" data-i18n="team_2_role">Senior Colorist — balayage, correction and root touch-ups.</p>
+      <div class="specialist-block reveal" data-name="Elena Moreau">
+        <div class="specialist-row">
+          <img src="https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Elena Moreau">
+          <div class="specialist-row__body">
+            <h4>Elena Moreau</h4>
+            <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 5.0 · <span data-i18n="team_2_exp">9 years experience</span></div>
+            <p class="specialist-row__desc" data-i18n="team_2_role">Senior Colorist — balayage, correction and root touch-ups.</p>
+          </div>
         </div>
-        <div class="specialist-row__radio"></div>
+        <div class="date-strip-wrap">
+          <div class="date-strip-header">
+            <span class="date-strip-month"></span>
+            <div class="date-strip-nav">
+              <button class="date-nav-btn" data-dir="-1" aria-label="Previous week"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="date-nav-btn" data-dir="1" aria-label="Next week"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="date-strip"></div>
+          <div class="time-grid"></div>
+        </div>
       </div>
 
-      <div class="specialist-row reveal" data-name="Sofia Marchetti">
-        <img src="https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Sofia Marchetti">
-        <div class="specialist-row__body">
-          <h4>Sofia Marchetti</h4>
-          <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 5.0 · <span data-i18n="team_3_exp">7 years experience</span></div>
-          <p class="specialist-row__desc" data-i18n="team_3_role">Nail &amp; Lash Artist — manicure, pedicure, lash extensions.</p>
+      <div class="specialist-block reveal" data-name="Sofia Marchetti">
+        <div class="specialist-row">
+          <img src="https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Sofia Marchetti">
+          <div class="specialist-row__body">
+            <h4>Sofia Marchetti</h4>
+            <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 5.0 · <span data-i18n="team_3_exp">7 years experience</span></div>
+            <p class="specialist-row__desc" data-i18n="team_3_role">Nail &amp; Lash Artist — manicure, pedicure, lash extensions.</p>
+          </div>
         </div>
-        <div class="specialist-row__radio"></div>
+        <div class="date-strip-wrap">
+          <div class="date-strip-header">
+            <span class="date-strip-month"></span>
+            <div class="date-strip-nav">
+              <button class="date-nav-btn" data-dir="-1" aria-label="Previous week"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="date-nav-btn" data-dir="1" aria-label="Next week"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="date-strip"></div>
+          <div class="time-grid"></div>
+        </div>
       </div>
 
-      <div class="specialist-row reveal" data-name="Daniel Reyes">
-        <img src="https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Daniel Reyes">
-        <div class="specialist-row__body">
-          <h4>Daniel Reyes</h4>
-          <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 4.9 · <span data-i18n="team_4_exp">8 years experience</span></div>
-          <p class="specialist-row__desc" data-i18n="team_4_role">Skin &amp; Spa Therapist — facials, massage, spa rituals.</p>
+      <div class="specialist-block reveal" data-name="Daniel Reyes">
+        <div class="specialist-row">
+          <img src="https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150" class="specialist-row__img" alt="Daniel Reyes">
+          <div class="specialist-row__body">
+            <h4>Daniel Reyes</h4>
+            <div class="specialist-row__meta"><i class="fa-solid fa-star"></i> 4.9 · <span data-i18n="team_4_exp">8 years experience</span></div>
+            <p class="specialist-row__desc" data-i18n="team_4_role">Skin &amp; Spa Therapist — facials, massage, spa rituals.</p>
+          </div>
         </div>
-        <div class="specialist-row__radio"></div>
+        <div class="date-strip-wrap">
+          <div class="date-strip-header">
+            <span class="date-strip-month"></span>
+            <div class="date-strip-nav">
+              <button class="date-nav-btn" data-dir="-1" aria-label="Previous week"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="date-nav-btn" data-dir="1" aria-label="Next week"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="date-strip"></div>
+          <div class="time-grid"></div>
+        </div>
       </div>
 
     </div>
   </section>
 </main>
 
-<div class="continue-bar" id="continueBarSpecialist">
-  <div class="continue-bar__info">
-    <strong id="specialistChoice" data-i18n="any_specialist_t">Any specialist</strong>
+<div class="summary-bar" id="summaryBar">
+  <img class="summary-bar__avatar" id="summaryAvatar" src="" alt="">
+  <div class="summary-bar__info">
+    <strong id="summaryName">—</strong>
+    <span id="summaryDatetime">—</span>
   </div>
-  <a href="https://wa.me/15551234567" target="_blank" rel="noopener" class="btn btn--gold" id="continueBtnSpecialist" data-i18n="finish_btn">Finish on WhatsApp</a>
+  <div class="summary-bar__price">
+    <span id="summaryMeta">—</span>
+    <strong id="summaryTotal">$0</strong>
+  </div>
+  <a href="review.html" class="btn btn--gold btn--sm" id="summaryContinue" data-i18n="continue_btn">Continue</a>
 </div>
 
 <script src="script.js"></script>

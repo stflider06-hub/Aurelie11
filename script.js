@@ -248,6 +248,10 @@ document.addEventListener('DOMContentLoaded', () => {
       any_specialist_t:"Любой специалист", any_specialist_p:"Подберём лучшего свободного мастера",
       finish_btn:"Отправить в WhatsApp",
       nav_specialists:"Специалисты",
+      choose_btn:"Выбрать", review_btn:"Проверить запись",
+      review_page_title:"Проверьте данные", review_details_title:"Детали записи",
+      review_services_title:"Услуги", review_total:"Итого", review_form_title:"Заполните ваши данные",
+      review_comment_ph:"Введите комментарий (необязательно)",
     },
 
     kk: {
@@ -357,6 +361,10 @@ document.addEventListener('DOMContentLoaded', () => {
       any_specialist_t:"Кез келген маман", any_specialist_p:"Ең жақсы бос маманды таңдаймыз",
       finish_btn:"WhatsApp-қа жіберу",
       nav_specialists:"Мамандар",
+      choose_btn:"Таңдау", review_btn:"Жазылуды тексеру",
+      review_page_title:"Деректерді тексеріңіз", review_details_title:"Жазылу мәліметтері",
+      review_services_title:"Қызметтер", review_total:"Барлығы", review_form_title:"Деректеріңізді толтырыңыз",
+      review_comment_ph:"Пікір қалдырыңыз (міндетті емес)",
     },
 
     ky: {
@@ -466,6 +474,10 @@ document.addEventListener('DOMContentLoaded', () => {
       any_specialist_t:"Каалаган адис", any_specialist_p:"Эң мыкты бош устаны тандайбыз",
       finish_btn:"WhatsApp'ка жөнөтүү",
       nav_specialists:"Адистер",
+      choose_btn:"Тандоо", review_btn:"Жазылууну текшерүү",
+      review_page_title:"Маалыматты текшериңиз", review_details_title:"Жазылуу маалыматы",
+      review_services_title:"Кызматтар", review_total:"Жалпысы", review_form_title:"Маалыматыңызды толтуруңуз",
+      review_comment_ph:"Пикир калтырыңыз (милдеттүү эмес)",
     },
 
     uz: {
@@ -575,6 +587,10 @@ document.addEventListener('DOMContentLoaded', () => {
       any_specialist_t:"Istalgan mutaxassis", any_specialist_p:"Eng yaxshi bo'sh ustani tanlaymiz",
       finish_btn:"WhatsApp'ga yuborish",
       nav_specialists:"Mutaxassislar",
+      choose_btn:"Tanlash", review_btn:"Bronni tekshirish",
+      review_page_title:"Ma'lumotlarni tekshiring", review_details_title:"Bron tafsilotlari",
+      review_services_title:"Xizmatlar", review_total:"Jami", review_form_title:"Ma'lumotlaringizni to'ldiring",
+      review_comment_ph:"Izoh qoldiring (ixtiyoriy)",
     }
   };
 
@@ -758,7 +774,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return condition;
   }
 
-  /* ---------- SHARED BOOKING STATE (services.html + specialists.html) ---------- */
+  /* ---------- SHARED BOOKING STATE ---------- */
+  const SPECIALISTS_DATA = {
+    'Any specialist': { photo: null, role: '', experience: '' },
+    'Camille Laurent': { photo: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Founder & Master Stylist', experience: '12 years experience' },
+    'Elena Moreau': { photo: 'https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Senior Colorist', experience: '9 years experience' },
+    'Sofia Marchetti': { photo: 'https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Nail & Lash Artist', experience: '7 years experience' },
+    'Daniel Reyes': { photo: 'https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Skin & Spa Therapist', experience: '8 years experience' }
+  };
+
+  const I18N_CALENDAR = {
+    en: { weekdays:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], months:['January','February','March','April','May','June','July','August','September','October','November','December'], today:'Today', tomorrow:'Tomorrow' },
+    ru: { weekdays:['Вс','Пн','Вт','Ср','Чт','Пт','Сб'], months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'], today:'Сегодня', tomorrow:'Завтра' },
+    kk: { weekdays:['Жс','Дс','Сс','Ср','Бс','Жм','Сб'], months:['Қаңтар','Ақпан','Наурыз','Сәуір','Мамыр','Маусым','Шілде','Тамыз','Қыркүйек','Қазан','Қараша','Желтоқсан'], today:'Бүгін', tomorrow:'Ертең' },
+    ky: { weekdays:['Жк','Дш','Ше','Шр','Бш','Жм','Иш'], months:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'], today:'Бүгүн', tomorrow:'Эртең' },
+    uz: { weekdays:['Ya','Du','Se','Ch','Pa','Ju','Sh'], months:['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'], today:'Bugun', tomorrow:'Ertaga' }
+  };
+
   function getSelectedServices(){
     try { return JSON.parse(localStorageSafeGet('aurelie_selected_services') || '[]'); }
     catch(e){ return []; }
@@ -766,47 +798,103 @@ document.addEventListener('DOMContentLoaded', () => {
   function saveSelectedServices(list){ localStorageSafeSet('aurelie_selected_services', JSON.stringify(list)); }
   function getChosenSpecialist(){ return localStorageSafeGet('aurelie_selected_specialist'); }
   function saveChosenSpecialist(name){ localStorageSafeSet('aurelie_selected_specialist', name); }
+  function getChosenDateTime(){
+    return {
+      date: localStorageSafeGet('aurelie_selected_date') || '',
+      dateLabel: localStorageSafeGet('aurelie_selected_date_label') || '',
+      time: localStorageSafeGet('aurelie_selected_time') || ''
+    };
+  }
+  function saveChosenDateTime(date, dateLabel, time){
+    localStorageSafeSet('aurelie_selected_date', date);
+    localStorageSafeSet('aurelie_selected_date_label', dateLabel);
+    localStorageSafeSet('aurelie_selected_time', time);
+  }
+  function getServicesTotals(){
+    const services = getSelectedServices();
+    let price = 0, minutes = 0;
+    services.forEach(s => {
+      price += parseFloat(s.price || 0);
+      minutes += parseInt(s.duration || 0, 10);
+    });
+    return { price, minutes, count: services.length };
+  }
+  function formatDuration(minutes){
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    if (h && m) return `${h}h ${m}min`;
+    if (h) return `${h}h`;
+    return `${m}min`;
+  }
+  function t(key, fallback){ return (translations[currentLang] && translations[currentLang][key]) || fallback; }
 
-  function sendBookingToWhatsapp(){
+  function sendBookingToWhatsapp(name, phone, comment){
     const services = getSelectedServices();
     const specialist = getChosenSpecialist() || 'Any specialist';
-    const serviceText = services.length ? services.map(s => s.name).join(', ') : 'not specified';
-    const message = `Hello! I'd like to book:\nService(s): ${serviceText}\nSpecialist: ${specialist}`;
+    const dt = getChosenDateTime();
+    const totals = getServicesTotals();
+    const serviceText = services.length
+      ? services.map(s => `${s.name} — $${s.price}`).join('\n')
+      : 'not specified';
+    let message = `Hello! I'd like to book an appointment.\n\n`;
+    message += `Specialist: ${specialist}\n`;
+    if (dt.dateLabel && dt.time) message += `Date & time: ${dt.dateLabel}, ${dt.time}\n`;
+    message += `\nServices:\n${serviceText}\n\nTotal: $${totals.price} (${formatDuration(totals.minutes)})\n`;
+    if (name) message += `\nName: ${name}`;
+    if (phone) message += `\nPhone: ${phone}`;
+    if (comment) message += `\nComment: ${comment}`;
     const url = 'https://wa.me/15551234567?text=' + encodeURIComponent(message);
     window.open(url, '_blank');
   }
 
   /* ---------- SERVICE SELECTION PAGE (services.html) ---------- */
   const serviceRows = document.querySelectorAll('.service-row');
-  const continueBar = document.getElementById('continueBar');
-  const continueCount = document.getElementById('continueCount');
-  const continueTotal = document.getElementById('continueTotal');
+  const servicesSummary = document.getElementById('servicesSummary');
+  const summaryCount = document.getElementById('summaryCount');
+  const summaryDuration = document.getElementById('summaryDuration');
+  const summaryList = document.getElementById('summaryList');
   const continueBtn = document.getElementById('continueBtn');
 
   if (serviceRows.length){
     let selected = getSelectedServices();
 
     function refreshServiceUI(){
-      let total = 0;
+      let totalMinutes = 0;
       serviceRows.forEach(row => {
         const isSel = selected.some(s => s.name === row.dataset.name);
         row.classList.toggle('is-selected', isSel);
         const check = row.querySelector('.service-row__check i');
         if (check) check.style.display = isSel ? 'block' : 'none';
-        if (isSel) total += parseFloat(row.dataset.price || 0);
       });
-      if (continueCount) continueCount.innerHTML = selected.length + ' <span data-i18n="selected_label">selected</span>';
-      if (continueTotal) continueTotal.textContent = '$' + total;
-      if (continueBar) continueBar.classList.toggle('is-visible', selected.length > 0);
+      selected.forEach(s => totalMinutes += parseInt(s.duration || 0, 10));
+
+      if (summaryCount) summaryCount.innerHTML = selected.length + ' <span data-i18n="selected_label">' + t('selected_label','selected') + '</span>';
+      if (summaryDuration) summaryDuration.textContent = selected.length ? formatDuration(totalMinutes) : '';
+      if (summaryList){
+        summaryList.innerHTML = selected.map(s => `
+          <div class="summary-row" data-name="${s.name}">
+            <span class="summary-row__name">${s.name}</span>
+            <span class="summary-row__price">$${s.price}</span>
+            <button class="summary-row__remove" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        `).join('');
+        summaryList.querySelectorAll('.summary-row__remove').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const name = btn.closest('.summary-row').dataset.name;
+            selected = selected.filter(s => s.name !== name);
+            saveSelectedServices(selected);
+            refreshServiceUI();
+          });
+        });
+      }
+      if (servicesSummary) servicesSummary.classList.toggle('is-visible', selected.length > 0);
       if (continueBtn){
-        if (getChosenSpecialist()){
-          continueBtn.textContent = translations[currentLang]?.finish_btn || 'Send to WhatsApp';
-          continueBtn.setAttribute('href', '#');
-          continueBtn.dataset.action = 'finish';
+        if (getChosenSpecialist() && getChosenDateTime().time){
+          continueBtn.textContent = t('review_btn', 'Review booking');
+          continueBtn.setAttribute('href', 'review.html');
         } else {
-          continueBtn.textContent = translations[currentLang]?.continue_btn || 'Continue';
+          continueBtn.textContent = t('choose_btn', 'Choose');
           continueBtn.setAttribute('href', 'specialists.html');
-          continueBtn.dataset.action = 'next';
         }
       }
     }
@@ -816,22 +904,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = row.dataset.name;
         const idx = selected.findIndex(s => s.name === name);
         if (idx > -1){ selected.splice(idx, 1); }
-        else { selected.push({ name, price: row.dataset.price, duration: row.dataset.duration }); }
+        else {
+          const img = row.querySelector('.service-row__img');
+          selected.push({ name, price: row.dataset.price, duration: row.dataset.duration, photo: img ? img.src : '' });
+        }
         saveSelectedServices(selected);
         refreshServiceUI();
       });
     });
     refreshServiceUI();
-
-    if (continueBtn){
-      continueBtn.addEventListener('click', (e) => {
-        if (continueBtn.dataset.action === 'finish'){
-          e.preventDefault();
-          sendBookingToWhatsapp();
-        }
-        // otherwise let the link navigate normally to specialists.html
-      });
-    }
 
     // Category tabs
     document.querySelectorAll('#categoryTabs .filter-btn').forEach(tab => {
@@ -858,56 +939,185 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- SPECIALIST SELECTION PAGE (specialists.html) ---------- */
-  const specialistRows = document.querySelectorAll('.specialist-row');
-  const specialistChoice = document.getElementById('specialistChoice');
-  const continueBtnSpecialist = document.getElementById('continueBtnSpecialist');
-  const continueBarSpecialist = document.getElementById('continueBarSpecialist');
+  /* ---------- SPECIALIST + DATE/TIME SELECTION PAGE (specialists.html) ---------- */
+  const specialistBlocks = document.querySelectorAll('.specialist-block');
+  const summaryBar = document.getElementById('summaryBar');
 
-  if (specialistRows.length){
-    // Visiting this page always counts as a (possibly default) choice, same as real booking apps
-    let chosenSpecialist = getChosenSpecialist() || 'Any specialist';
-    saveChosenSpecialist(chosenSpecialist);
+  if (specialistBlocks.length){
+    const TIME_SLOTS = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'];
 
-    function refreshSpecialistUI(){
-      specialistRows.forEach(row => {
-        row.classList.toggle('is-selected', row.dataset.name === chosenSpecialist);
-      });
-      if (specialistChoice) specialistChoice.textContent = chosenSpecialist;
-      if (continueBarSpecialist) continueBarSpecialist.classList.add('is-visible');
-      if (continueBtnSpecialist){
-        if (getSelectedServices().length > 0){
-          continueBtnSpecialist.textContent = translations[currentLang]?.finish_btn || 'Send to WhatsApp';
-          continueBtnSpecialist.setAttribute('href', '#');
-          continueBtnSpecialist.dataset.action = 'finish';
-        } else {
-          continueBtnSpecialist.textContent = translations[currentLang]?.continue_btn || 'Continue';
-          continueBtnSpecialist.setAttribute('href', 'services.html');
-          continueBtnSpecialist.dataset.action = 'next';
+    function selectSpecialistSlot(block, dateChip, time){
+      specialistBlocks.forEach(b => b.classList.remove('has-selection'));
+      block.classList.add('has-selection');
+      const name = block.dataset.name;
+      saveChosenSpecialist(name);
+      saveChosenDateTime(dateChip.dataset.iso, dateChip.dataset.display, time);
+      updateSummaryBar();
+    }
+
+    function updateSummaryBar(){
+      const name = getChosenSpecialist();
+      if (!name || !summaryBar) return;
+      const data = SPECIALISTS_DATA[name] || {};
+      const dt = getChosenDateTime();
+      const totals = getServicesTotals();
+
+      const avatarEl = document.getElementById('summaryAvatar');
+      const nameEl = document.getElementById('summaryName');
+      const datetimeEl = document.getElementById('summaryDatetime');
+      const metaEl = document.getElementById('summaryMeta');
+      const totalEl = document.getElementById('summaryTotal');
+
+      if (avatarEl){
+        if (data.photo){ avatarEl.src = data.photo; avatarEl.style.display = ''; }
+        else { avatarEl.style.display = 'none'; }
+      }
+      if (nameEl) nameEl.textContent = name;
+      if (datetimeEl) datetimeEl.textContent = dt.dateLabel && dt.time ? `${dt.dateLabel} · ${dt.time}` : '';
+      if (metaEl) metaEl.textContent = totals.count + ' · ' + formatDuration(totals.minutes);
+      if (totalEl) totalEl.textContent = '$' + totals.price;
+
+      summaryBar.classList.add('is-visible');
+    }
+
+    specialistBlocks.forEach(block => {
+      const wrap = block.querySelector('.date-strip-wrap');
+      const monthLabel = wrap.querySelector('.date-strip-month');
+      const stripEl = wrap.querySelector('.date-strip');
+      const gridEl = wrap.querySelector('.time-grid');
+      let weekOffset = 0;
+
+      function renderWeek(){
+        const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
+        const today = new Date();
+        stripEl.innerHTML = '';
+        const firstDay = new Date(today);
+        firstDay.setDate(today.getDate() + weekOffset * 7);
+        monthLabel.textContent = cal.months[firstDay.getMonth()] + ' ' + firstDay.getFullYear();
+
+        for (let i = 0; i < 7; i++){
+          const d = new Date(firstDay);
+          d.setDate(firstDay.getDate() + i);
+          const isToday = d.toDateString() === today.toDateString();
+          const tmr = new Date(today); tmr.setDate(today.getDate() + 1);
+          const isTomorrow = d.toDateString() === tmr.toDateString();
+
+          const chip = document.createElement('div');
+          chip.className = 'date-chip' + (isToday ? ' is-today' : '');
+          let label = cal.weekdays[d.getDay()];
+          if (isToday) label = cal.today;
+          else if (isTomorrow) label = cal.tomorrow;
+          chip.innerHTML = `<span class="date-chip__label">${label}</span><span class="date-chip__num">${d.getDate()}</span>`;
+          chip.dataset.iso = d.toISOString().split('T')[0];
+          chip.dataset.display = d.getDate() + ' ' + cal.months[d.getMonth()] + ' ' + d.getFullYear();
+          if (weekOffset === 0 && i === 0) chip.classList.add('is-active');
+          chip.addEventListener('click', () => {
+            stripEl.querySelectorAll('.date-chip').forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            gridEl.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+          });
+          stripEl.appendChild(chip);
         }
       }
-    }
 
-    specialistRows.forEach(row => {
-      row.addEventListener('click', () => {
-        chosenSpecialist = row.dataset.name;
-        saveChosenSpecialist(chosenSpecialist);
-        refreshSpecialistUI();
+      function renderTimes(){
+        gridEl.innerHTML = '';
+        TIME_SLOTS.forEach(time => {
+          const chip = document.createElement('div');
+          chip.className = 'time-chip';
+          chip.textContent = time;
+          chip.addEventListener('click', () => {
+            gridEl.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            const activeDateChip = stripEl.querySelector('.date-chip.is-active');
+            selectSpecialistSlot(block, activeDateChip, time);
+          });
+          gridEl.appendChild(chip);
+        });
+      }
+
+      wrap.querySelectorAll('.date-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          weekOffset += parseInt(btn.dataset.dir, 10);
+          if (weekOffset < 0) weekOffset = 0;
+          renderWeek();
+        });
       });
+
+      renderWeek();
+      renderTimes();
     });
-    refreshSpecialistUI();
 
-    if (continueBtnSpecialist){
-      continueBtnSpecialist.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (continueBtnSpecialist.dataset.action === 'finish'){
-          sendBookingToWhatsapp();
-        } else {
-          window.location.href = 'services.html';
-        }
+    // If a specialist/date/time were already chosen before (coming back to this page), reflect it
+    if (getChosenSpecialist() && getChosenDateTime().time) updateSummaryBar();
+  }
+
+  /* ---------- REVIEW PAGE (review.html) ---------- */
+  const reviewForm = document.getElementById('reviewForm');
+  if (reviewForm){
+    const name = getChosenSpecialist() || 'Any specialist';
+    const data = SPECIALISTS_DATA[name] || {};
+    const dt = getChosenDateTime();
+    const services = getSelectedServices();
+    const totals = getServicesTotals();
+
+    const imgEl = document.getElementById('reviewSpecialistImg');
+    const iconEl = document.getElementById('reviewSpecialistIcon');
+    const nameEl = document.getElementById('reviewSpecialistName');
+    const roleEl = document.getElementById('reviewSpecialistRole');
+    const dateEl = document.getElementById('reviewDate');
+    const timeEl = document.getElementById('reviewTime');
+    const durationEl = document.getElementById('reviewServicesDuration');
+    const listEl = document.getElementById('reviewServicesList');
+    const totalEl = document.getElementById('reviewTotal');
+
+    if (data.photo){ if (imgEl){ imgEl.src = data.photo; imgEl.style.display = ''; } }
+    else if (iconEl){ iconEl.style.display = ''; }
+    if (nameEl) nameEl.textContent = name;
+    if (roleEl) roleEl.textContent = [data.role, data.experience].filter(Boolean).join(' · ');
+    if (dateEl) dateEl.textContent = dt.dateLabel || '—';
+    if (timeEl) timeEl.textContent = dt.time || '';
+    if (durationEl) durationEl.textContent = formatDuration(totals.minutes);
+    if (listEl){
+      listEl.innerHTML = services.map(s => `
+        <div class="review-service-item">
+          ${s.photo ? `<img src="${s.photo}" alt="${s.name}">` : ''}
+          <div class="review-service-item__body">
+            <strong>${s.name}</strong>
+            <span>${formatDuration(parseInt(s.duration||0,10))}</span>
+          </div>
+          <span class="review-service-item__price">$${s.price}</span>
+        </div>
+      `).join('');
+    }
+    if (totalEl) totalEl.textContent = '$' + totals.price;
+
+    // Live validation: enable submit only once name + phone are filled
+    const nameInput = document.getElementById('rName');
+    const phoneInput = document.getElementById('rPhone');
+    const commentInput = document.getElementById('rComment');
+    const commentCount = document.getElementById('rCommentCount');
+    const submitBtn = document.getElementById('reviewSubmit');
+
+    function checkReady(){
+      const ready = nameInput.value.trim().length >= 2 && phoneInput.value.trim().length >= 6;
+      submitBtn.classList.toggle('is-ready', ready);
+    }
+    nameInput.addEventListener('input', checkReady);
+    phoneInput.addEventListener('input', checkReady);
+    if (commentInput && commentCount){
+      commentInput.addEventListener('input', () => {
+        commentCount.textContent = commentInput.value.length;
       });
     }
+
+    reviewForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!submitBtn.classList.contains('is-ready')) return;
+      sendBookingToWhatsapp(nameInput.value.trim(), phoneInput.value.trim(), commentInput.value.trim());
+    });
   }
+
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
