@@ -24,7 +24,7 @@
 <!-- ============ SIMPLE SUB-PAGE HEADER ============ -->
 <header class="header" id="header">
   <div class="container header__inner">
-    <a href="menu.html" class="page-back" aria-label="Back to menu">
+    <a href="index.html" class="page-back" aria-label="Back to menu">
       <i class="fa-solid fa-arrow-left"></i>
       <span data-i18n="back_to_menu">Menu</span>
     </a>
@@ -34,15 +34,19 @@
         <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
         <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
       </div>
-      <div class="lang-select-wrap">
-        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
-        <select class="lang-select" id="langSelect" aria-label="Choose language">
-          <option value="en">EN</option>
-          <option value="ru">RU 🇷🇺</option>
-          <option value="kk">KZ 🇰🇿</option>
-          <option value="ky">KG 🇰🇬</option>
-          <option value="uz">UZ 🇺🇿</option>
-        </select>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown__trigger" id="langDropdownTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose language">
+          <span class="lang-dropdown__flag" id="langDropdownFlag">🇬🇧</span>
+          <span id="langDropdownLabel">EN</span>
+          <i class="fa-solid fa-chevron-down lang-dropdown__chevron"></i>
+        </button>
+        <ul class="lang-dropdown__menu" id="langDropdownMenu" role="listbox">
+          <li role="option" data-lang="en"><span class="lang-dropdown__menu-flag">🇬🇧</span><span>English</span></li>
+          <li role="option" data-lang="ru"><span class="lang-dropdown__menu-flag">🇷🇺</span><span>Русский</span></li>
+          <li role="option" data-lang="kk"><span class="lang-dropdown__menu-flag">🇰🇿</span><span>Қазақша</span></li>
+          <li role="option" data-lang="ky"><span class="lang-dropdown__menu-flag">🇰🇬</span><span>Кыргызча</span></li>
+          <li role="option" data-lang="uz"><span class="lang-dropdown__menu-flag">🇺🇿</span><span>O&#39;zbekcha</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -67,7 +71,7 @@
         <a href="services.html" class="btn btn--gold btn--lg">
           <span data-i18n="hero_cta_book">Book Appointment</span>
         </a>
-        <a href="tel:+15551234567" class="btn btn--ghost btn--lg">
+        <a href="tel:+996559751050" class="btn btn--ghost btn--lg">
           <i class="fa-solid fa-phone"></i>
           <span data-i18n="hero_cta_call">Call Now</span>
         </a>
@@ -137,6 +141,62 @@
             <span class="timeline__num">03</span>
             <div><h4 data-i18n="tl_3_title">2026 — 5,000+ Clients</h4><p data-i18n="tl_3_text">A trusted name with a team of twelve specialists.</p></div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY CHOOSE US ============ -->
+  <section class="section why" id="why">
+    <div class="container">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="why_eyebrow">— Why Aurelie</p>
+        <h2 class="section__title" data-i18n="why_title">The details that make the difference</h2>
+      </div>
+
+      <div class="why__grid">
+        <div class="why-card reveal"><i class="fa-solid fa-certificate"></i><h3 data-i18n="why_1_t">Certified Specialists</h3><p data-i18n="why_1_p">Every stylist is licensed and trained internationally.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-spa"></i><h3 data-i18n="why_2_t">Premium Cosmetics</h3><p data-i18n="why_2_p">We use only professional, dermatologist-tested lines.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-shield-virus"></i><h3 data-i18n="why_3_t">Sterile Equipment</h3><p data-i18n="why_3_p">Hospital-grade sterilization after every appointment.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-couch"></i><h3 data-i18n="why_4_t">Comfort Atmosphere</h3><p data-i18n="why_4_p">A calm, private space designed for real relaxation.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-tag"></i><h3 data-i18n="why_5_t">Fair Pricing</h3><p data-i18n="why_5_p">Transparent rates with no hidden fees, ever.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-wand-magic-sparkles"></i><h3 data-i18n="why_6_t">Modern Techniques</h3><p data-i18n="why_6_p">Ongoing education on the latest global methods.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-bolt"></i><h3 data-i18n="why_7_t">Fast Booking</h3><p data-i18n="why_7_p">Reserve your slot online in under a minute.</p></div>
+        <div class="why-card reveal"><i class="fa-solid fa-user-check"></i><h3 data-i18n="why_8_t">Individual Approach</h3><p data-i18n="why_8_p">Every treatment plan is built around you.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPECIAL OFFERS ============ -->
+  <section class="section offers" id="offers">
+    <div class="container">
+      <div class="section__head reveal">
+        <p class="eyebrow" data-i18n="offers_eyebrow">— Limited Time</p>
+        <h2 class="section__title" data-i18n="offers_title">Special offers</h2>
+      </div>
+
+      <div class="offers__grid">
+        <div class="offer-banner reveal">
+          <div class="offer-banner__text">
+            <span class="offer-banner__tag" data-i18n="offer_1_tag">Summer Glow</span>
+            <h3 data-i18n="offer_1_title">20% off all facial treatments</h3>
+            <p data-i18n="offer_1_text">Valid throughout July for new and returning clients.</p>
+            <a href="services.html" class="btn btn--gold btn--sm" data-i18n="btn_claim">Claim Offer</a>
+          </div>
+        </div>
+
+        <div class="offer-card reveal">
+          <i class="fa-solid fa-gift"></i>
+          <h4 data-i18n="offer_2_title">Gift Certificates</h4>
+          <p data-i18n="offer_2_text">The perfect present — any service, any amount.</p>
+          <a href="index.html" class="link-arrow" data-i18n="btn_learn">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="offer-card reveal">
+          <i class="fa-solid fa-user-plus"></i>
+          <h4 data-i18n="offer_3_title">First Visit Discount</h4>
+          <p data-i18n="offer_3_text">New clients save 15% on their first appointment.</p>
+          <a href="services.html" class="link-arrow" data-i18n="btn_book">Book <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
     </div>
@@ -261,6 +321,61 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section faq" id="faq">
+    <div class="container faq__grid">
+      <div class="reveal-left">
+        <p class="eyebrow" data-i18n="faq_eyebrow">— Good to Know</p>
+        <h2 class="section__title" data-i18n="faq_title">Frequently asked questions</h2>
+        <p class="section__sub" data-i18n="faq_sub">Can't find your answer? Reach out and we'll get back within a day.</p>
+        <a href="#contact" class="btn btn--outline" data-i18n="btn_contact_us">Contact Us</a>
+      </div>
+
+      <div class="accordion" id="accordion">
+        <div class="accordion__item is-open">
+          <button class="accordion__head"><span data-i18n="faq_1_q">Do I need to book in advance?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_1_a">We recommend booking 2-3 days ahead, especially for weekends. Walk-ins are welcome if a slot is open.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_2_q">What is your cancellation policy?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_2_a">Free cancellation up to 24 hours before your appointment. Late cancellations may incur a small fee.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_3_q">Do you offer consultations?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_3_a">Yes — every first-time color or skin service starts with a complimentary consultation.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_4_q">Are your products cruelty-free?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_4_a">All product lines we carry are cruelty-free and professional grade.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_5_q">Do you accept walk-ins?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_5_a">Yes, subject to availability. Booking ahead guarantees your preferred time.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_6_q">What payment methods do you accept?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_6_a">Cash, all major cards, and mobile payments including Apple Pay.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_7_q">Can I bring a guest?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_7_a">Of course — our waiting lounge is open and comfortable for guests.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_8_q">Do you offer gift certificates?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_8_a">Yes, in any amount, valid for one year from purchase.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_9_q">Is parking available?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_9_a">Free parking is available directly behind the studio building.</p></div>
+        </div>
+        <div class="accordion__item">
+          <button class="accordion__head"><span data-i18n="faq_10_q">Do you work with children?</span><i class="fa-solid fa-plus"></i></button>
+          <div class="accordion__body"><p data-i18n="faq_10_a">We welcome children over 10 for haircuts, accompanied by an adult.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
   <section class="section contact" id="contact">
     <div class="container contact__grid">
       <div class="reveal-left">
@@ -269,7 +384,7 @@
 
         <div class="contact__list">
           <div class="contact__item"><i class="fa-solid fa-location-dot"></i><div><strong data-i18n="contact_address_l">Address</strong><span>128 Maple Avenue, Suite 3, Springfield</span></div></div>
-          <div class="contact__item"><i class="fa-solid fa-phone"></i><div><strong data-i18n="contact_phone_l">Phone</strong><span>+1 (555) 123-4567</span></div></div>
+          <div class="contact__item"><i class="fa-solid fa-phone"></i><div><strong data-i18n="contact_phone_l">Phone</strong><span>+996 559 751 050</span></div></div>
           <div class="contact__item"><i class="fa-solid fa-envelope"></i><div><strong data-i18n="contact_email_l">Email</strong><span>hello@aureliestudio.com</span></div></div>
           <div class="contact__item"><i class="fa-regular fa-clock"></i><div><strong data-i18n="contact_hours_l">Hours</strong><span data-i18n="contact_hours_v">Mon–Sat: 9:00–20:00, Sun: 10:00–18:00</span></div></div>
         </div>
@@ -297,7 +412,7 @@
 <footer class="footer">
   <div class="container footer__grid">
     <div class="footer__brand">
-      <a href="menu.html" class="logo logo--footer">
+      <a href="index.html" class="logo logo--footer">
         <span class="logo__mark">A</span><span class="logo__text">Aurelie</span>
       </a>
       <p data-i18n="footer_tagline">A private studio for hair, skin, nails and spa — since 2014.</p>
@@ -313,13 +428,13 @@
       <h4 data-i18n="footer_links">Quick Links</h4>
       <a href="services.html" data-i18n="nav_services">Services</a>
       <a href="specialists.html" data-i18n="nav_specialists">Specialists</a>
-      <a href="menu.html" data-i18n="nav_home">Home</a>
+      <a href="index.html" data-i18n="nav_home">Home</a>
     </div>
 
     <div class="footer__col">
       <h4 data-i18n="footer_contacts">Contacts</h4>
       <span>128 Maple Avenue, Springfield</span>
-      <span>+1 (555) 123-4567</span>
+      <span>+996 559 751 050</span>
       <span>hello@aureliestudio.com</span>
       <span data-i18n="contact_hours_v">Mon–Sat: 9:00–20:00, Sun: 10:00–18:00</span>
     </div>

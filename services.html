@@ -22,7 +22,7 @@
 
 <header class="header" id="header">
   <div class="container header__inner">
-    <a href="menu.html" class="page-back" aria-label="Back to menu">
+    <a href="index.html" class="page-back" aria-label="Back to menu">
       <i class="fa-solid fa-arrow-left"></i>
       <span data-i18n="back_to_menu">Menu</span>
     </a>
@@ -32,15 +32,19 @@
         <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
         <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
       </div>
-      <div class="lang-select-wrap">
-        <i class="fa-solid fa-language lang-select-wrap__icon"></i>
-        <select class="lang-select" id="langSelect" aria-label="Choose language">
-          <option value="en">EN</option>
-          <option value="ru">RU 🇷🇺</option>
-          <option value="kk">KZ 🇰🇿</option>
-          <option value="ky">KG 🇰🇬</option>
-          <option value="uz">UZ 🇺🇿</option>
-        </select>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown__trigger" id="langDropdownTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose language">
+          <span class="lang-dropdown__flag" id="langDropdownFlag">🇬🇧</span>
+          <span id="langDropdownLabel">EN</span>
+          <i class="fa-solid fa-chevron-down lang-dropdown__chevron"></i>
+        </button>
+        <ul class="lang-dropdown__menu" id="langDropdownMenu" role="listbox">
+          <li role="option" data-lang="en"><span class="lang-dropdown__menu-flag">🇬🇧</span><span>English</span></li>
+          <li role="option" data-lang="ru"><span class="lang-dropdown__menu-flag">🇷🇺</span><span>Русский</span></li>
+          <li role="option" data-lang="kk"><span class="lang-dropdown__menu-flag">🇰🇿</span><span>Қазақша</span></li>
+          <li role="option" data-lang="ky"><span class="lang-dropdown__menu-flag">🇰🇬</span><span>Кыргызча</span></li>
+          <li role="option" data-lang="uz"><span class="lang-dropdown__menu-flag">🇺🇿</span><span>O&#39;zbekcha</span></li>
+        </ul>
       </div>
     </div>
   </div>
@@ -69,32 +73,32 @@
         <div class="service-group" data-cat="hair">
           <h3 class="service-group__title" data-i18n="group_hair">Hair</h3>
 
-          <div class="service-row" data-name="Signature Haircut" data-price="45" data-duration="45 min">
+          <div class="service-row" data-name="Signature Haircut" data-price="500" data-duration="45 min">
             <img src="https://images.pexels.com/photos/3992863/pexels-photo-3992863.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Signature Haircut">
             <div class="service-row__body">
               <h4 data-i18n="srv_1_t">Signature Haircut</h4>
               <p data-i18n="srv_1_p">Precision cut with wash and styling consultation.</p>
-              <span class="service-row__meta">$45 <span>· 45 min</span></span>
+              <span class="service-row__meta">500 сом <span>· 45 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Hair Coloring" data-price="120" data-duration="120 min">
+          <div class="service-row" data-name="Hair Coloring" data-price="2500" data-duration="120 min">
             <img src="https://images.pexels.com/photos/3993326/pexels-photo-3993326.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Hair Coloring">
             <div class="service-row__body">
               <h4 data-i18n="srv_2_t">Hair Coloring</h4>
               <p data-i18n="srv_2_p">Full color, balayage or root touch-up.</p>
-              <span class="service-row__meta">$120 <span>· 120 min</span></span>
+              <span class="service-row__meta">2500 сом <span>· 120 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Hair Styling" data-price="35" data-duration="40 min">
+          <div class="service-row" data-name="Hair Styling" data-price="700" data-duration="40 min">
             <img src="https://images.pexels.com/photos/3992879/pexels-photo-3992879.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Hair Styling">
             <div class="service-row__body">
               <h4 data-i18n="srv_3_t">Hair Styling</h4>
               <p data-i18n="srv_3_p">Event-ready blowouts and updos.</p>
-              <span class="service-row__meta">$35 <span>· 40 min</span></span>
+              <span class="service-row__meta">700 сом <span>· 40 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
@@ -103,22 +107,22 @@
         <div class="service-group" data-cat="nails">
           <h3 class="service-group__title" data-i18n="group_nails">Nails</h3>
 
-          <div class="service-row" data-name="Manicure" data-price="30" data-duration="50 min">
+          <div class="service-row" data-name="Manicure" data-price="800" data-duration="50 min">
             <img src="https://images.pexels.com/photos/7755296/pexels-photo-7755296.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Manicure">
             <div class="service-row__body">
               <h4 data-i18n="srv_4_t">Manicure</h4>
               <p data-i18n="srv_4_p">Classic, gel or Russian manicure options.</p>
-              <span class="service-row__meta">$30 <span>· 50 min</span></span>
+              <span class="service-row__meta">800 сом <span>· 50 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Pedicure" data-price="40" data-duration="60 min">
+          <div class="service-row" data-name="Pedicure" data-price="1000" data-duration="60 min">
             <img src="https://images.pexels.com/photos/13068361/pexels-photo-13068361.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Pedicure">
             <div class="service-row__body">
               <h4 data-i18n="srv_5_t">Pedicure</h4>
               <p data-i18n="srv_5_p">Spa pedicure with paraffin treatment.</p>
-              <span class="service-row__meta">$40 <span>· 60 min</span></span>
+              <span class="service-row__meta">1000 сом <span>· 60 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
@@ -127,22 +131,22 @@
         <div class="service-group" data-cat="brows">
           <h3 class="service-group__title" data-i18n="group_brows">Brows &amp; Lashes</h3>
 
-          <div class="service-row" data-name="Eyebrow Correction" data-price="25" data-duration="30 min">
+          <div class="service-row" data-name="Eyebrow Correction" data-price="400" data-duration="30 min">
             <img src="https://images.pexels.com/photos/6629525/pexels-photo-6629525.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Eyebrow Correction">
             <div class="service-row__body">
               <h4 data-i18n="srv_6_t">Eyebrow Correction</h4>
               <p data-i18n="srv_6_p">Shaping, tinting and lamination.</p>
-              <span class="service-row__meta">$25 <span>· 30 min</span></span>
+              <span class="service-row__meta">400 сом <span>· 30 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Lash Extensions" data-price="70" data-duration="90 min">
+          <div class="service-row" data-name="Lash Extensions" data-price="1800" data-duration="90 min">
             <img src="https://images.pexels.com/photos/20309789/pexels-photo-20309789.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Lash Extensions">
             <div class="service-row__body">
               <h4 data-i18n="srv_7_t">Lash Extensions</h4>
               <p data-i18n="srv_7_p">Classic, hybrid or volume sets.</p>
-              <span class="service-row__meta">$70 <span>· 90 min</span></span>
+              <span class="service-row__meta">1800 сом <span>· 90 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
@@ -151,32 +155,32 @@
         <div class="service-group" data-cat="skin">
           <h3 class="service-group__title" data-i18n="group_skin">Skin &amp; Spa</h3>
 
-          <div class="service-row" data-name="Facial Care" data-price="65" data-duration="60 min">
+          <div class="service-row" data-name="Facial Care" data-price="1500" data-duration="60 min">
             <img src="https://images.pexels.com/photos/6187421/pexels-photo-6187421.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Facial Care">
             <div class="service-row__body">
               <h4 data-i18n="srv_8_t">Facial Care</h4>
               <p data-i18n="srv_8_p">Deep-cleansing facial tailored to skin type.</p>
-              <span class="service-row__meta">$65 <span>· 60 min</span></span>
+              <span class="service-row__meta">1500 сом <span>· 60 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Relaxing Massage" data-price="75" data-duration="60 min">
+          <div class="service-row" data-name="Relaxing Massage" data-price="1200" data-duration="60 min">
             <img src="https://images.pexels.com/photos/6187430/pexels-photo-6187430.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Relaxing Massage">
             <div class="service-row__body">
               <h4 data-i18n="srv_9_t">Relaxing Massage</h4>
               <p data-i18n="srv_9_p">Full-body massage to release tension.</p>
-              <span class="service-row__meta">$75 <span>· 60 min</span></span>
+              <span class="service-row__meta">1200 сом <span>· 60 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="SPA Ritual" data-price="140" data-duration="120 min">
+          <div class="service-row" data-name="SPA Ritual" data-price="3500" data-duration="120 min">
             <img src="https://images.pexels.com/photos/6187852/pexels-photo-6187852.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="SPA Ritual">
             <div class="service-row__body">
               <h4 data-i18n="srv_10_t">SPA Ritual</h4>
               <p data-i18n="srv_10_p">A two-hour full-body spa escape.</p>
-              <span class="service-row__meta">$140 <span>· 120 min</span></span>
+              <span class="service-row__meta">3500 сом <span>· 120 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
@@ -185,22 +189,22 @@
         <div class="service-group" data-cat="makeup">
           <h3 class="service-group__title" data-i18n="group_makeup">Makeup</h3>
 
-          <div class="service-row" data-name="Makeup" data-price="55" data-duration="50 min">
+          <div class="service-row" data-name="Makeup" data-price="1500" data-duration="50 min">
             <img src="https://images.pexels.com/photos/7446920/pexels-photo-7446920.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Makeup">
             <div class="service-row__body">
               <h4 data-i18n="srv_11_t">Makeup</h4>
               <p data-i18n="srv_11_p">Day, evening or bridal makeup application.</p>
-              <span class="service-row__meta">$55 <span>· 50 min</span></span>
+              <span class="service-row__meta">1500 сом <span>· 50 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>
 
-          <div class="service-row" data-name="Laser Hair Removal" data-price="90" data-duration="40 min">
+          <div class="service-row" data-name="Laser Hair Removal" data-price="2000" data-duration="40 min">
             <img src="https://images.pexels.com/photos/6629536/pexels-photo-6629536.jpeg?auto=compress&cs=tinysrgb&w=150" class="service-row__img" alt="Laser Hair Removal">
             <div class="service-row__body">
               <h4 data-i18n="srv_12_t">Laser Hair Removal</h4>
               <p data-i18n="srv_12_p">Diode laser treatment, all skin tones.</p>
-              <span class="service-row__meta">$90 <span>· 40 min</span></span>
+              <span class="service-row__meta">2000 сом <span>· 40 <span data-i18n="unit_min">min</span></span></span>
             </div>
             <div class="service-row__check"><i class="fa-solid fa-check" style="display:none;"></i></div>
           </div>

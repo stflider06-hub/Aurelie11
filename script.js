@@ -249,6 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
       finish_btn:"Отправить в WhatsApp",
       nav_specialists:"Специалисты",
       choose_btn:"Выбрать", review_btn:"Проверить запись",
+      unit_min:"мин",
+      datetime_page_title:"Выберите дату и время", done_btn:"Готово", specialists_page_title_simple:"Выберите специалиста", datetime_available_times:"Доступное время",
       review_page_title:"Проверьте данные", review_details_title:"Детали записи",
       review_services_title:"Услуги", review_total:"Итого", review_form_title:"Заполните ваши данные",
       review_comment_ph:"Введите комментарий (необязательно)",
@@ -362,6 +364,8 @@ document.addEventListener('DOMContentLoaded', () => {
       finish_btn:"WhatsApp-қа жіберу",
       nav_specialists:"Мамандар",
       choose_btn:"Таңдау", review_btn:"Жазылуды тексеру",
+      unit_min:"мин",
+      datetime_page_title:"Күнін мен уақытын таңдаңыз", done_btn:"Дайын", datetime_available_times:"Қолжетімді уақыт",
       review_page_title:"Деректерді тексеріңіз", review_details_title:"Жазылу мәліметтері",
       review_services_title:"Қызметтер", review_total:"Барлығы", review_form_title:"Деректеріңізді толтырыңыз",
       review_comment_ph:"Пікір қалдырыңыз (міндетті емес)",
@@ -475,6 +479,8 @@ document.addEventListener('DOMContentLoaded', () => {
       finish_btn:"WhatsApp'ка жөнөтүү",
       nav_specialists:"Адистер",
       choose_btn:"Тандоо", review_btn:"Жазылууну текшерүү",
+      unit_min:"мүн",
+      datetime_page_title:"Күн жана убакытты тандаңыз", done_btn:"Даяр", datetime_available_times:"Бош убакыттар",
       review_page_title:"Маалыматты текшериңиз", review_details_title:"Жазылуу маалыматы",
       review_services_title:"Кызматтар", review_total:"Жалпысы", review_form_title:"Маалыматыңызды толтуруңуз",
       review_comment_ph:"Пикир калтырыңыз (милдеттүү эмес)",
@@ -588,22 +594,61 @@ document.addEventListener('DOMContentLoaded', () => {
       finish_btn:"WhatsApp'ga yuborish",
       nav_specialists:"Mutaxassislar",
       choose_btn:"Tanlash", review_btn:"Bronni tekshirish",
+      unit_min:"min",
+      datetime_page_title:"Sana va vaqtni tanlang", done_btn:"Tayyor", datetime_available_times:"Bo'sh vaqtlar",
       review_page_title:"Ma'lumotlarni tekshiring", review_details_title:"Bron tafsilotlari",
       review_services_title:"Xizmatlar", review_total:"Jami", review_form_title:"Ma'lumotlaringizni to'ldiring",
       review_comment_ph:"Izoh qoldiring (ixtiyoriy)",
     }
   };
 
-  const langSelect = document.getElementById('langSelect');
+  const LANG_META = {
+    en: { flag:'🇬🇧', label:'EN' }, ru: { flag:'🇷🇺', label:'RU' },
+    kk: { flag:'🇰🇿', label:'KZ' }, ky: { flag:'🇰🇬', label:'KG' }, uz: { flag:'🇺🇿', label:'UZ' }
+  };
+  const langDropdown = document.getElementById('langDropdown');
+  const langTrigger = document.getElementById('langDropdownTrigger');
+  const langMenu = document.getElementById('langDropdownMenu');
+  const langFlagEl = document.getElementById('langDropdownFlag');
+  const langLabelEl = document.getElementById('langDropdownLabel');
   let currentLang = localStorageSafeGet('aurelie-lang') || 'en';
-  if (langSelect) langSelect.value = currentLang;
   applyLang(currentLang);
 
-  if (langSelect){
-    langSelect.addEventListener('change', () => {
-      currentLang = langSelect.value;
-      localStorageSafeSet('aurelie-lang', currentLang);
-      applyLang(currentLang);
+  if (langDropdown && langTrigger && langMenu){
+    function setActiveLangOption(){
+      langMenu.querySelectorAll('li').forEach(li => li.classList.toggle('is-active', li.dataset.lang === currentLang));
+      const meta = LANG_META[currentLang] || LANG_META.en;
+      if (langFlagEl) langFlagEl.textContent = meta.flag;
+      if (langLabelEl) langLabelEl.textContent = meta.label;
+    }
+    setActiveLangOption();
+
+    langTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = langDropdown.classList.toggle('is-open');
+      langTrigger.setAttribute('aria-expanded', isOpen);
+    });
+    langMenu.querySelectorAll('li').forEach(li => {
+      li.addEventListener('click', () => {
+        currentLang = li.dataset.lang;
+        localStorageSafeSet('aurelie-lang', currentLang);
+        applyLang(currentLang);
+        setActiveLangOption();
+        langDropdown.classList.remove('is-open');
+        langTrigger.setAttribute('aria-expanded', 'false');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!langDropdown.contains(e.target)){
+        langDropdown.classList.remove('is-open');
+        langTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape'){
+        langDropdown.classList.remove('is-open');
+        langTrigger.setAttribute('aria-expanded', 'false');
+      }
     });
   }
 
@@ -776,11 +821,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- SHARED BOOKING STATE ---------- */
   const SPECIALISTS_DATA = {
-    'Any specialist': { photo: null, role: '', experience: '' },
-    'Camille Laurent': { photo: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Founder & Master Stylist', experience: '12 years experience' },
-    'Elena Moreau': { photo: 'https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Senior Colorist', experience: '9 years experience' },
-    'Sofia Marchetti': { photo: 'https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Nail & Lash Artist', experience: '7 years experience' },
-    'Daniel Reyes': { photo: 'https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150', role: 'Skin & Spa Therapist', experience: '8 years experience' }
+    'Any specialist': { photo: null, roleKey:'', expKey:'', roleFallback:'', expFallback:'' },
+    'Camille Laurent': { photo: 'https://images.pexels.com/photos/3992872/pexels-photo-3992872.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_1_role', expKey:'team_1_exp', roleFallback:'Founder & Master Stylist', expFallback:'12 years experience' },
+    'Elena Moreau': { photo: 'https://images.pexels.com/photos/3992866/pexels-photo-3992866.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_2_role', expKey:'team_2_exp', roleFallback:'Senior Colorist', expFallback:'9 years experience' },
+    'Sofia Marchetti': { photo: 'https://images.pexels.com/photos/6187850/pexels-photo-6187850.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_3_role', expKey:'team_3_exp', roleFallback:'Nail & Lash Artist', expFallback:'7 years experience' },
+    'Daniel Reyes': { photo: 'https://images.pexels.com/photos/6186761/pexels-photo-6186761.jpeg?auto=compress&cs=tinysrgb&w=150', roleKey:'team_4_role', expKey:'team_4_exp', roleFallback:'Skin & Spa Therapist', expFallback:'8 years experience' }
   };
 
   const I18N_CALENDAR = {
@@ -819,14 +864,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     return { price, minutes, count: services.length };
   }
+  const DURATION_UNITS = {
+    en: { min:'min', h:'h' }, ru: { min:'мин', h:'ч' },
+    kk: { min:'мин', h:'сағ' }, ky: { min:'мүн', h:'саат' }, uz: { min:'min', h:'soat' }
+  };
   function formatDuration(minutes){
+    const u = DURATION_UNITS[currentLang] || DURATION_UNITS.en;
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    if (h && m) return `${h}h ${m}min`;
-    if (h) return `${h}h`;
-    return `${m}min`;
+    if (h && m) return `${h}${u.h} ${m}${u.min}`;
+    if (h) return `${h}${u.h}`;
+    return `${m}${u.min}`;
   }
   function t(key, fallback){ return (translations[currentLang] && translations[currentLang][key]) || fallback; }
+  function serviceDisplayName(s){ return s.nameKey ? t(s.nameKey, s.name) : s.name; }
 
   function sendBookingToWhatsapp(name, phone, comment){
     const services = getSelectedServices();
@@ -834,16 +885,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const dt = getChosenDateTime();
     const totals = getServicesTotals();
     const serviceText = services.length
-      ? services.map(s => `${s.name} — $${s.price}`).join('\n')
+      ? services.map(s => `${serviceDisplayName(s)} — ${s.price} сом`).join('\n')
       : 'not specified';
     let message = `Hello! I'd like to book an appointment.\n\n`;
     message += `Specialist: ${specialist}\n`;
     if (dt.dateLabel && dt.time) message += `Date & time: ${dt.dateLabel}, ${dt.time}\n`;
-    message += `\nServices:\n${serviceText}\n\nTotal: $${totals.price} (${formatDuration(totals.minutes)})\n`;
+    message += `\nServices:\n${serviceText}\n\nTotal: ${totals.price} сом (${formatDuration(totals.minutes)})\n`;
     if (name) message += `\nName: ${name}`;
     if (phone) message += `\nPhone: ${phone}`;
     if (comment) message += `\nComment: ${comment}`;
-    const url = 'https://wa.me/15551234567?text=' + encodeURIComponent(message);
+    const url = 'https://wa.me/996559751050?text=' + encodeURIComponent(message);
     window.open(url, '_blank');
   }
 
@@ -873,8 +924,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (summaryList){
         summaryList.innerHTML = selected.map(s => `
           <div class="summary-row" data-name="${s.name}">
-            <span class="summary-row__name">${s.name}</span>
-            <span class="summary-row__price">$${s.price}</span>
+            <span class="summary-row__name">${serviceDisplayName(s)}</span>
+            <span class="summary-row__price">${s.price} сом</span>
             <button class="summary-row__remove" aria-label="Remove"><i class="fa-solid fa-xmark"></i></button>
           </div>
         `).join('');
@@ -888,15 +939,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
       if (servicesSummary) servicesSummary.classList.toggle('is-visible', selected.length > 0);
-      if (continueBtn){
-        if (getChosenSpecialist() && getChosenDateTime().time){
-          continueBtn.textContent = t('review_btn', 'Review booking');
-          continueBtn.setAttribute('href', 'review.html');
-        } else {
-          continueBtn.textContent = t('choose_btn', 'Choose');
-          continueBtn.setAttribute('href', 'specialists.html');
-        }
-      }
+    }
+
+    if (continueBtn){
+      continueBtn.addEventListener('click', () => {
+        // tells specialists.html "I just came from services" so it knows to move on to date/time next
+        localStorageSafeSet('aurelie_came_from_services', 'true');
+      });
     }
 
     serviceRows.forEach(row => {
@@ -906,7 +955,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (idx > -1){ selected.splice(idx, 1); }
         else {
           const img = row.querySelector('.service-row__img');
-          selected.push({ name, price: row.dataset.price, duration: row.dataset.duration, photo: img ? img.src : '' });
+          const nameEl = row.querySelector('h4');
+          selected.push({ name, nameKey: nameEl ? nameEl.dataset.i18n : '', price: row.dataset.price, duration: row.dataset.duration, photo: img ? img.src : '' });
         }
         saveSelectedServices(selected);
         refreshServiceUI();
@@ -939,18 +989,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ---------- SPECIALIST + DATE/TIME SELECTION PAGE (specialists.html) ---------- */
-  const specialistBlocks = document.querySelectorAll('.specialist-block');
-  const summaryBar = document.getElementById('summaryBar');
+  const menuSpecialistBtn = document.getElementById('menuSpecialistBtn');
+  if (menuSpecialistBtn){
+    menuSpecialistBtn.addEventListener('click', () => {
+      localStorageSafeSet('aurelie_came_from_services', 'false');
+    });
+  }
 
-  if (specialistBlocks.length){
+  const menuServiceBtn = document.getElementById('menuServiceBtn');
+  if (menuServiceBtn){
+    menuServiceBtn.addEventListener('click', () => {
+      saveChosenSpecialist('');
+      localStorageSafeSet('aurelie_specialist_set_via', '');
+      saveChosenDateTime('', '', '');
+    });
+  }
+
+  /* ---------- SPECIALIST SELECTION PAGE (specialists.html — two variants) ---------- */
+  const specialistsBack = document.getElementById('specialistsBack');
+  if (specialistsBack){
+    const cameFromServicesForBack = localStorageSafeGet('aurelie_came_from_services') === 'true';
+    specialistsBack.setAttribute('href', cameFromServicesForBack ? 'services.html' : 'index.html');
+  }
+
+  const specialistsSimpleWrap = document.getElementById('specialistsSimple');
+  const specialistsDatesWrap = document.getElementById('specialistsWithDates');
+
+  if (specialistsSimpleWrap && specialistsDatesWrap){
+    const cameFromServices = localStorageSafeGet('aurelie_came_from_services') === 'true';
+    const existingSpecialist = getChosenSpecialist();
+    const specialistSetVia = localStorageSafeGet('aurelie_specialist_set_via');
+    const forceEdit = new URLSearchParams(window.location.search).get('edit') === '1';
+
+    if (cameFromServices && existingSpecialist && specialistSetVia === 'simple' && !forceEdit){
+      // Genuine path: specialist was picked on the simple list, THEN services — go straight to date/time.
+      // Using replace() so this hop doesn't create a browser-history entry (keeps Back working correctly).
+      window.location.replace('datetime.html');
+    } else if (cameFromServices){
+      // Services were chosen first (or the old specialist data is unrelated/stale): show the full picker
+      specialistsSimpleWrap.style.display = 'none';
+      specialistsDatesWrap.style.display = '';
+      initCombinedSpecialists();
+    } else {
+      // Fresh entry from the main menu "Choose a Specialist" button: always restart clean
+      saveSelectedServices([]);
+      saveChosenSpecialist('');
+      localStorageSafeSet('aurelie_specialist_set_via', '');
+      specialistsDatesWrap.style.display = 'none';
+      specialistsSimpleWrap.style.display = '';
+      initSimpleSpecialists();
+    }
+  }
+
+  function initSimpleSpecialists(){
+    const specialistRows = document.querySelectorAll('#specialistsSimple .specialist-row');
+    const continueBarSpecialist = document.getElementById('continueBarSpecialist');
+    const continueBtnSpecialist = document.getElementById('continueBtnSpecialist');
+    let chosenSpecialist = null;
+
+    specialistRows.forEach(row => {
+      row.addEventListener('click', () => {
+        specialistRows.forEach(r => r.classList.remove('is-selected'));
+        row.classList.add('is-selected');
+        chosenSpecialist = row.dataset.name;
+        saveChosenSpecialist(chosenSpecialist);
+        localStorageSafeSet('aurelie_specialist_set_via', 'simple');
+        if (continueBarSpecialist) continueBarSpecialist.classList.add('is-visible');
+      });
+    });
+
+    if (continueBtnSpecialist){
+      continueBtnSpecialist.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!chosenSpecialist) return;
+        // Specialist-first entry: services must always be (re)chosen fresh next
+        window.location.href = 'services.html';
+      });
+    }
+  }
+
+  function initCombinedSpecialists(){
+    const specialistBlocks = document.querySelectorAll('#specialistsWithDates .specialist-block');
+    const summaryBar = document.getElementById('summaryBar');
     const TIME_SLOTS = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'];
 
     function selectSpecialistSlot(block, dateChip, time){
-      specialistBlocks.forEach(b => b.classList.remove('has-selection'));
-      block.classList.add('has-selection');
+      specialistBlocks.forEach(b => {
+        b.classList.toggle('has-selection', b === block);
+        if (b !== block){
+          b.querySelectorAll('.time-chip.is-active').forEach(c => c.classList.remove('is-active'));
+        }
+      });
       const name = block.dataset.name;
       saveChosenSpecialist(name);
+      localStorageSafeSet('aurelie_specialist_set_via', 'combined');
       saveChosenDateTime(dateChip.dataset.iso, dateChip.dataset.display, time);
       updateSummaryBar();
     }
@@ -975,7 +1107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (nameEl) nameEl.textContent = name;
       if (datetimeEl) datetimeEl.textContent = dt.dateLabel && dt.time ? `${dt.dateLabel} · ${dt.time}` : '';
       if (metaEl) metaEl.textContent = totals.count + ' · ' + formatDuration(totals.minutes);
-      if (totalEl) totalEl.textContent = '$' + totals.price;
+      if (totalEl) totalEl.textContent = totals.price + ' сом';
 
       summaryBar.classList.add('is-visible');
     }
@@ -1047,12 +1179,120 @@ document.addEventListener('DOMContentLoaded', () => {
       renderWeek();
       renderTimes();
     });
+  }
 
-    // If a specialist/date/time were already chosen before (coming back to this page), reflect it
-    if (getChosenSpecialist() && getChosenDateTime().time) updateSummaryBar();
+  /* ---------- DATE & TIME PAGE (datetime.html) ---------- */
+  const calGrid = document.getElementById('calGrid');
+  const dtTimeGrid = document.getElementById('dtTimeGrid');
+
+  if (calGrid && dtTimeGrid){
+    const TIME_SLOTS = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'];
+    const calWeekdays = document.getElementById('calWeekdays');
+    const calMonthLabel = document.getElementById('calMonthLabel');
+    const continueBarDatetime = document.getElementById('continueBarDatetime');
+    const datetimeBack = document.getElementById('datetimeBack');
+
+    // Always require a fresh pick — never pre-select a leftover date/time from an earlier visit
+    saveChosenDateTime('', '', '');
+    if (datetimeBack){
+      // If we got here via the specialist-first path, going "back" in-app should land on
+      // services.html (skipping the specialist page, which would just auto-redirect here again)
+      const viaSimple = localStorageSafeGet('aurelie_specialist_set_via') === 'simple';
+      datetimeBack.setAttribute('href', viaSimple ? 'services.html' : 'specialists.html');
+    }
+
+    let viewMonth = new Date();
+    viewMonth.setDate(1);
+    let selectedDateIso = null;
+    let selectedTime = null;
+
+    function renderCalendar(){
+      const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
+      const today = new Date(); today.setHours(0,0,0,0);
+
+      if (calWeekdays){
+        // Monday-first week header, matching the reference layout
+        const order = [1,2,3,4,5,6,0];
+        calWeekdays.innerHTML = order.map(i => `<span>${cal.weekdays[i]}</span>`).join('');
+      }
+      calMonthLabel.textContent = cal.months[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
+
+      const firstOfMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
+      const startOffset = (firstOfMonth.getDay() + 6) % 7; // convert Sun=0 to Monday-first offset
+      const daysInMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0).getDate();
+
+      calGrid.innerHTML = '';
+      for (let i = 0; i < startOffset; i++){
+        calGrid.appendChild(document.createElement('span'));
+      }
+      for (let d = 1; d <= daysInMonth; d++){
+        const dateObj = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), d);
+        const iso = dateObj.toISOString().split('T')[0];
+        const isPast = dateObj < today;
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'calendar-day' + (isPast ? ' is-disabled' : '');
+        cell.textContent = d;
+        cell.disabled = isPast;
+        if (!isPast){
+          cell.addEventListener('click', () => {
+            calGrid.querySelectorAll('.calendar-day').forEach(c => c.classList.remove('is-active'));
+            cell.classList.add('is-active');
+            selectedDateIso = iso;
+            selectedTime = null;
+            dtTimeGrid.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+            if (continueBarDatetime) continueBarDatetime.classList.remove('is-visible');
+          });
+        }
+        calGrid.appendChild(cell);
+      }
+    }
+
+    function renderTimeSlots(){
+      dtTimeGrid.innerHTML = '';
+      TIME_SLOTS.forEach(time => {
+        const chip = document.createElement('div');
+        chip.className = 'time-chip';
+        chip.textContent = time;
+        chip.addEventListener('click', () => {
+          if (!selectedDateIso) return;
+          dtTimeGrid.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+          chip.classList.add('is-active');
+          selectedTime = time;
+          const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
+          const d = new Date(selectedDateIso);
+          const display = d.getDate() + ' ' + cal.months[d.getMonth()] + ' ' + d.getFullYear();
+          saveChosenDateTime(selectedDateIso, display, selectedTime);
+          if (continueBarDatetime) continueBarDatetime.classList.add('is-visible');
+        });
+        dtTimeGrid.appendChild(chip);
+      });
+    }
+
+    document.getElementById('calPrev').addEventListener('click', () => {
+      viewMonth.setMonth(viewMonth.getMonth() - 1);
+      renderCalendar();
+    });
+    document.getElementById('calNext').addEventListener('click', () => {
+      viewMonth.setMonth(viewMonth.getMonth() + 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+    renderTimeSlots();
   }
 
   /* ---------- REVIEW PAGE (review.html) ---------- */
+  const reviewBack = document.getElementById('reviewBack');
+  const reviewEditDatetime = document.getElementById('reviewEditDatetime');
+  if (reviewBack || reviewEditDatetime){
+    // Services-first path keeps date/time inside the specialist page (no separate datetime.html step)
+    const viaSimple = localStorageSafeGet('aurelie_specialist_set_via') === 'simple';
+    const target = viaSimple ? 'datetime.html' : 'specialists.html?edit=1';
+    if (reviewBack) reviewBack.setAttribute('href', target);
+    if (reviewEditDatetime) reviewEditDatetime.setAttribute('href', target);
+  }
+
   const reviewForm = document.getElementById('reviewForm');
   if (reviewForm){
     const name = getChosenSpecialist() || 'Any specialist';
@@ -1074,23 +1314,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.photo){ if (imgEl){ imgEl.src = data.photo; imgEl.style.display = ''; } }
     else if (iconEl){ iconEl.style.display = ''; }
     if (nameEl) nameEl.textContent = name;
-    if (roleEl) roleEl.textContent = [data.role, data.experience].filter(Boolean).join(' · ');
+    if (roleEl) roleEl.textContent = [t(data.roleKey, data.roleFallback), t(data.expKey, data.expFallback)].filter(Boolean).join(' · ');
     if (dateEl) dateEl.textContent = dt.dateLabel || '—';
     if (timeEl) timeEl.textContent = dt.time || '';
     if (durationEl) durationEl.textContent = formatDuration(totals.minutes);
     if (listEl){
       listEl.innerHTML = services.map(s => `
         <div class="review-service-item">
-          ${s.photo ? `<img src="${s.photo}" alt="${s.name}">` : ''}
+          ${s.photo ? `<img src="${s.photo}" alt="${serviceDisplayName(s)}">` : ''}
           <div class="review-service-item__body">
-            <strong>${s.name}</strong>
+            <strong>${serviceDisplayName(s)}</strong>
             <span>${formatDuration(parseInt(s.duration||0,10))}</span>
           </div>
-          <span class="review-service-item__price">$${s.price}</span>
+          <span class="review-service-item__price">${s.price} сом</span>
         </div>
       `).join('');
     }
-    if (totalEl) totalEl.textContent = '$' + totals.price;
+    if (totalEl) totalEl.textContent = totals.price + ' сом';
 
     // Live validation: enable submit only once name + phone are filled
     const nameInput = document.getElementById('rName');
@@ -1100,9 +1340,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('reviewSubmit');
 
     function checkReady(){
-      const ready = nameInput.value.trim().length >= 2 && phoneInput.value.trim().length >= 6;
+      const phoneDigits = phoneInput.value.replace(/\D/g, '');
+      const ready = nameInput.value.trim().length >= 2 && phoneDigits.length >= 12; // 996 + 9 digits
       submitBtn.classList.toggle('is-ready', ready);
     }
+    // Pre-fill the Kyrgyzstan country code and auto-format as the client types
+    if (!phoneInput.value) phoneInput.value = '+996 ';
+    phoneInput.addEventListener('focus', () => {
+      if (!phoneInput.value) phoneInput.value = '+996 ';
+    });
+    phoneInput.addEventListener('input', () => {
+      let digits = phoneInput.value.replace(/\D/g, '');
+      if (digits.startsWith('996')) digits = digits.slice(3);
+      digits = digits.slice(0, 9);
+      let formatted = '+996';
+      if (digits.length > 0) formatted += ' (' + digits.slice(0, 3);
+      if (digits.length >= 3) formatted += ')';
+      if (digits.length > 3) formatted += ' ' + digits.slice(3, 6);
+      if (digits.length > 6) formatted += '-' + digits.slice(6, 9);
+      phoneInput.value = formatted;
+      checkReady();
+    });
+
     nameInput.addEventListener('input', checkReady);
     phoneInput.addEventListener('input', checkReady);
     if (commentInput && commentCount){

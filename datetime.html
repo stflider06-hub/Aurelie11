@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Choose Date &amp; Time — Aurelie</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Manrope:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__mark"><span class="loader__glyph">A</span></div>
+  <div class="loader__line"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <div class="page-header__left"><a href="specialists.html" class="page-back" id="datetimeBack" aria-label="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </a>
+    <a href="index.html" class="page-menu-btn" aria-label="Main menu"><i class="fa-solid fa-house"></i></a></div>
+    <span class="page-header__title" data-i18n="datetime_page_title">Choose Date &amp; Time</span>
+    <div class="header__actions">
+      <div class="theme-switch" id="themeSwitch" role="group" aria-label="Toggle theme">
+        <button class="theme-switch__btn" data-theme-choice="light" aria-label="Light theme"><i class="fa-solid fa-sun"></i></button>
+        <button class="theme-switch__btn" data-theme-choice="dark" aria-label="Dark theme"><i class="fa-solid fa-moon"></i></button>
+      </div>
+      <div class="lang-dropdown" id="langDropdown">
+        <button class="lang-dropdown__trigger" id="langDropdownTrigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-label="Choose language">
+          <span class="lang-dropdown__flag" id="langDropdownFlag">🇬🇧</span>
+          <span id="langDropdownLabel">EN</span>
+          <i class="fa-solid fa-chevron-down lang-dropdown__chevron"></i>
+        </button>
+        <ul class="lang-dropdown__menu" id="langDropdownMenu" role="listbox">
+          <li role="option" data-lang="en"><span class="lang-dropdown__menu-flag">🇬🇧</span><span>English</span></li>
+          <li role="option" data-lang="ru"><span class="lang-dropdown__menu-flag">🇷🇺</span><span>Русский</span></li>
+          <li role="option" data-lang="kk"><span class="lang-dropdown__menu-flag">🇰🇿</span><span>Қазақша</span></li>
+          <li role="option" data-lang="ky"><span class="lang-dropdown__menu-flag">🇰🇬</span><span>Кыргызча</span></li>
+          <li role="option" data-lang="uz"><span class="lang-dropdown__menu-flag">🇺🇿</span><span>O'zbekcha</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section has-continue-bar" style="padding-top:140px;">
+    <div class="container" style="max-width:640px;">
+
+      <div class="calendar-card reveal">
+        <div class="calendar-card__header">
+          <span class="calendar-card__month" id="calMonthLabel"></span>
+          <div class="date-strip-nav">
+            <button class="date-nav-btn" id="calPrev" aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="date-nav-btn" id="calNext" aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="calendar-grid__weekdays" id="calWeekdays"></div>
+        <div class="calendar-grid" id="calGrid"></div>
+      </div>
+
+      <h3 class="section__title section__title--sm reveal" id="timeSectionTitle" data-i18n="datetime_available_times" style="margin-top:30px;">Available times</h3>
+      <div class="time-grid time-grid--wide reveal" id="dtTimeGrid"></div>
+
+    </div>
+  </section>
+</main>
+
+<div class="continue-bar" id="continueBarDatetime">
+  <a href="review.html" class="btn btn--gold btn--lg" id="continueBtnDatetime" data-i18n="done_btn" style="width:100%;">Done</a>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
