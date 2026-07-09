@@ -56,6 +56,10 @@
   .btn-confirm{ background:#276B37; color:#fff; border-color:#276B37; }
   .btn-cancel{ background:var(--bg-alt); color:var(--ink); }
   .btn-complete{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .btn-prepay{
+    display:inline-flex; align-items:center; padding:7px 14px; border-radius:100px; font-size:.78rem; font-weight:700;
+    background:#25D366; color:#fff; border:1px solid #25D366; text-decoration:none;
+  }
   .admin-empty{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
   .admin-loading{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
 </style>
@@ -119,8 +123,8 @@
   }
 
   async function loadServices(){
-    const { data } = await supabaseClient.from('services').select('id, name_ru, name_en');
-    (data || []).forEach(s => { serviceMap[s.id] = s.name_ru || s.name_en; });
+    const { data } = await supabaseClient.from('services').select('id, name_ru, name_en, price');
+    (data || []).forEach(s => { serviceMap[s.id] = { name: s.name_ru || s.name_en, price: s.price }; });
   }
 
   async function loadBookings(){
@@ -139,6 +143,70 @@
     renderBookings();
   }
 
+  const PAYMENT_METHOD = 'MBank';
+  const PAYMENT_NUMBER = '+996 559 751 050';
+  const PAYMENT_RECIPIENT = 'Байдоолот А.';
+
+  function buildBookingSummary(b){
+    const services = (b.service_ids || []).map(id => serviceMap[id]).filter(Boolean);
+    const serviceLines = services.length
+      ? services.map(s => `${s.name} — ${s.price} сом`).join('\n')
+      : 'не указано';
+    const specialistName = b.specialists ? b.specialists.name : 'Любой специалист';
+    const dateDisplay = b.booking_date ? new Date(b.booking_date).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) : '—';
+    const timeDisplay = b.booking_time ? b.booking_time.slice(0,5) : '';
+    return { serviceLines, specialistName, dateDisplay, timeDisplay };
+  }
+
+  function buildPrepaymentMessage(b){
+    const { serviceLines, specialistName, dateDisplay, timeDisplay } = buildBookingSummary(b);
+    const total = b.total_price || 0;
+    const prepay = Math.round(total * 0.10);
+    return `Здравствуйте, ${b.client_name}!
+
+Вы записались в Aurelie Beauty Studio:
+Мастер: ${specialistName}
+Дата и время: ${dateDisplay}, ${timeDisplay}
+
+Услуги:
+${serviceLines}
+
+Итого: ${total} сом
+
+Для подтверждения записи, пожалуйста, внесите предоплату 10% — это ${prepay} сом.
+
+Реквизиты для перевода:
+${PAYMENT_METHOD}: ${PAYMENT_NUMBER}
+Получатель: ${PAYMENT_RECIPIENT}
+
+После оплаты, пожалуйста, пришлите сюда скриншот чека — и мы подтвердим вашу запись.`;
+  }
+
+  function buildConfirmationMessage(b){
+    const { serviceLines, specialistName, dateDisplay, timeDisplay } = buildBookingSummary(b);
+    return `Спасибо, ${b.client_name}! Ваша запись подтверждена.
+
+Мастер: ${specialistName}
+Дата и время: ${dateDisplay}, ${timeDisplay}
+
+Услуги:
+${serviceLines}
+
+Итого: ${b.total_price || 0} сом
+
+Пожалуйста, приходите без опозданий.
+
+Бесплатная отмена — за 24 часа до записи.
+При отмене менее чем за 2 часа до записи предоплата не возвращается.
+
+Ждём вас в Aurelie Beauty Studio! 💙`;
+  }
+
+  function whatsappLink(phone, message){
+    const digits = (phone || '').replace(/\D/g, '');
+    return 'https://wa.me/' + digits + '?text=' + encodeURIComponent(message);
+  }
+
   function renderBookings(){
     const list = document.getElementById('bookingsList');
     const filtered = currentFilter === 'all'
@@ -153,18 +221,21 @@
     const statusLabels = { pending:'Новая', confirmed:'Подтверждена', cancelled:'Отменена', completed:'Завершена' };
 
     list.innerHTML = filtered.map(b => {
-      const serviceNames = (b.service_ids || []).map(id => serviceMap[id] || '—').join(', ');
+      const serviceNames = (b.service_ids || []).map(id => (serviceMap[id] ? serviceMap[id].name : '—')).join(', ');
       const specialistName = b.specialists ? b.specialists.name : 'Любой специалист';
       const dateDisplay = b.booking_date ? new Date(b.booking_date).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) : '—';
       const timeDisplay = b.booking_time ? b.booking_time.slice(0,5) : '';
+      const prepay = Math.round((b.total_price || 0) * 0.10);
 
       let actions = '';
       if (b.status === 'pending'){
         actions = `
+          <a class="btn-prepay" href="${whatsappLink(b.client_phone, buildPrepaymentMessage(b))}" target="_blank" rel="noopener">Запросить предоплату (${prepay} сом)</a>
           <button class="btn-confirm" onclick="updateStatus('${b.id}','confirmed')">Подтвердить</button>
           <button class="btn-cancel" onclick="updateStatus('${b.id}','cancelled')">Отменить</button>`;
       } else if (b.status === 'confirmed'){
         actions = `
+          <a class="btn-prepay" href="${whatsappLink(b.client_phone, buildConfirmationMessage(b))}" target="_blank" rel="noopener">Отправить подтверждение</a>
           <button class="btn-complete" onclick="updateStatus('${b.id}','completed')">Завершить</button>
           <button class="btn-cancel" onclick="updateStatus('${b.id}','cancelled')">Отменить</button>`;
       }

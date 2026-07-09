@@ -238,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_service:"Пожалуйста, выберите услугу.", form_err_date:"Пожалуйста, выберите дату.", form_err_time:"Пожалуйста, выберите время.",
       success_title:"Спасибо!", success_text:"Ваша заявка принята. Мы подтвердим запись по телефону или SMS.", success_close:"Закрыть",
       booking_sending:"Отправка...", booking_failed:"Ошибка — попробуйте ещё раз",
+      checking_availability:"Проверяем занятость...", time_unavailable:"Уже забронировано", pick_date_first:"Выберите дату выше, чтобы увидеть свободное время",
       contact_eyebrow:"— Свяжитесь с нами", contact_title:"Приходите или напишите",
       contact_address_l:"Адрес", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Часы работы",
       contact_hours_v:"Пн–Сб: 9:00–20:00, Вс: 10:00–18:00",
@@ -354,6 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_service:"Қызметті таңдаңыз.", form_err_date:"Күнді таңдаңыз.", form_err_time:"Уақытты таңдаңыз.",
       success_title:"Рахмет!", success_text:"Сұранысыңыз қабылданды. Жазылуыңызды телефон немесе SMS арқылы растаймыз.", success_close:"Жабу",
       booking_sending:"Жіберілуде...", booking_failed:"Қате — қайта көріңіз",
+      checking_availability:"Қолжетімділік тексерілуде...", time_unavailable:"Бос емес", pick_date_first:"Бос уақытты көру үшін күнді таңдаңыз",
       contact_eyebrow:"— Бізбен байланысыңыз", contact_title:"Келіңіз немесе жазыңыз",
       contact_address_l:"Мекенжай", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Жұмыс уақыты",
       contact_hours_v:"Дс–Сб: 9:00–20:00, Жс: 10:00–18:00",
@@ -470,6 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_service:"Кызматты тандаңыз.", form_err_date:"Күндү тандаңыз.", form_err_time:"Убакытты тандаңыз.",
       success_title:"Рахмат!", success_text:"Өтүнүчүңүз кабыл алынды. Жазылууну телефон же SMS аркылуу тастыктайбыз.", success_close:"Жабуу",
       booking_sending:"Жөнөтүлүүдө...", booking_failed:"Ката — кайра аракет кылыңыз",
+      checking_availability:"Бош убакыт текшерилүүдө...", time_unavailable:"Бош эмес", pick_date_first:"Бош убакытты көрүү үчүн күндү тандаңыз",
       contact_eyebrow:"— Биз менен байланышыңыз", contact_title:"Келиңиз же жазыңыз",
       contact_address_l:"Дареги", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Жумуш убактысы",
       contact_hours_v:"Дүй–Ишм: 9:00–20:00, Жек: 10:00–18:00",
@@ -586,6 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_service:"Xizmatni tanlang.", form_err_date:"Sanani tanlang.", form_err_time:"Vaqtni tanlang.",
       success_title:"Rahmat!", success_text:"So'rovingiz qabul qilindi. Yozilishni telefon yoki SMS orqali tasdiqlaymiz.", success_close:"Yopish",
       booking_sending:"Yuborilmoqda...", booking_failed:"Xatolik — qayta urinib ko'ring",
+      checking_availability:"Mavjudligi tekshirilmoqda...", time_unavailable:"Band qilingan", pick_date_first:"Bo'sh vaqtni ko'rish uchun sanani tanlang",
       contact_eyebrow:"— Biz bilan bog'laning", contact_title:"Keling yoki yozing",
       contact_address_l:"Manzil", contact_phone_l:"Telefon", contact_email_l:"Email", contact_hours_l:"Ish vaqti",
       contact_hours_v:"Du–Sh: 9:00–20:00, Ya: 10:00–18:00",
@@ -894,6 +898,28 @@ document.addEventListener('DOMContentLoaded', () => {
   function t(key, fallback){ return (translations[currentLang] && translations[currentLang][key]) || fallback; }
   function serviceDisplayName(s){ return s.nameKey ? t(s.nameKey, s.name) : s.name; }
 
+  const specialistIdCache = {};
+  async function getSpecialistIdByName(name){
+    if (!supabaseClient || !name || name === 'Any specialist') return null;
+    if (specialistIdCache[name] !== undefined) return specialistIdCache[name];
+    const { data } = await supabaseClient.from('specialists').select('id').eq('name', name).limit(1).maybeSingle();
+    const id = data ? data.id : null;
+    specialistIdCache[name] = id;
+    return id;
+  }
+
+  async function getBookedTimes(specialistId, dateIso){
+    if (!supabaseClient || !specialistId || !dateIso) return [];
+    const { data, error } = await supabaseClient
+      .from('bookings')
+      .select('booking_time')
+      .eq('specialist_id', specialistId)
+      .eq('booking_date', dateIso)
+      .in('status', ['pending', 'confirmed']);
+    if (error){ console.error('Could not check availability:', error); return []; }
+    return (data || []).map(b => (b.booking_time || '').slice(0, 5));
+  }
+
   async function submitBookingToDatabase(name, phone, comment){
     const services = getSelectedServices();
     const specialistName = getChosenSpecialist();
@@ -1155,6 +1181,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const stripEl = wrap.querySelector('.date-strip');
       const gridEl = wrap.querySelector('.time-grid');
       let weekOffset = 0;
+      const specialistName = block.dataset.name;
 
       function renderWeek(){
         const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
@@ -1183,24 +1210,33 @@ document.addEventListener('DOMContentLoaded', () => {
           chip.addEventListener('click', () => {
             stripEl.querySelectorAll('.date-chip').forEach(c => c.classList.remove('is-active'));
             chip.classList.add('is-active');
-            gridEl.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+            renderTimes(chip.dataset.iso);
           });
           stripEl.appendChild(chip);
         }
       }
 
-      function renderTimes(){
+      async function renderTimes(dateIso){
+        gridEl.innerHTML = `<span style="grid-column:1/-1; font-size:.8rem; color:var(--ink-soft);">${t('checking_availability','Checking availability...')}</span>`;
+        const specId = await getSpecialistIdByName(specialistName);
+        const bookedTimes = await getBookedTimes(specId, dateIso);
+
         gridEl.innerHTML = '';
         TIME_SLOTS.forEach(time => {
           const chip = document.createElement('div');
-          chip.className = 'time-chip';
+          const isBooked = bookedTimes.includes(time);
+          chip.className = 'time-chip' + (isBooked ? ' is-booked' : '');
           chip.textContent = time;
-          chip.addEventListener('click', () => {
-            gridEl.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
-            chip.classList.add('is-active');
-            const activeDateChip = stripEl.querySelector('.date-chip.is-active');
-            selectSpecialistSlot(block, activeDateChip, time);
-          });
+          if (isBooked){
+            chip.title = t('time_unavailable', 'Already booked');
+          } else {
+            chip.addEventListener('click', () => {
+              gridEl.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+              chip.classList.add('is-active');
+              const activeDateChip = stripEl.querySelector('.date-chip.is-active');
+              selectSpecialistSlot(block, activeDateChip, time);
+            });
+          }
           gridEl.appendChild(chip);
         });
       }
@@ -1214,7 +1250,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       renderWeek();
-      renderTimes();
+      const firstActiveChip = stripEl.querySelector('.date-chip.is-active');
+      renderTimes(firstActiveChip ? firstActiveChip.dataset.iso : '');
     });
   }
 
@@ -1277,31 +1314,41 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.classList.add('is-active');
             selectedDateIso = iso;
             selectedTime = null;
-            dtTimeGrid.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
             if (continueBarDatetime) continueBarDatetime.classList.remove('is-visible');
+            renderTimeSlots(iso);
           });
         }
         calGrid.appendChild(cell);
       }
     }
 
-    function renderTimeSlots(){
+    async function renderTimeSlots(dateIso){
+      const specialistName = getChosenSpecialist();
+      dtTimeGrid.innerHTML = `<span style="grid-column:1/-1; font-size:.8rem; color:var(--ink-soft);">${t('checking_availability','Checking availability...')}</span>`;
+      const specId = await getSpecialistIdByName(specialistName);
+      const bookedTimes = dateIso ? await getBookedTimes(specId, dateIso) : [];
+
       dtTimeGrid.innerHTML = '';
       TIME_SLOTS.forEach(time => {
         const chip = document.createElement('div');
-        chip.className = 'time-chip';
+        const isBooked = bookedTimes.includes(time);
+        chip.className = 'time-chip' + (isBooked ? ' is-booked' : '');
         chip.textContent = time;
-        chip.addEventListener('click', () => {
-          if (!selectedDateIso) return;
-          dtTimeGrid.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
-          chip.classList.add('is-active');
-          selectedTime = time;
-          const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
-          const d = new Date(selectedDateIso);
-          const display = d.getDate() + ' ' + cal.months[d.getMonth()] + ' ' + d.getFullYear();
-          saveChosenDateTime(selectedDateIso, display, selectedTime);
-          if (continueBarDatetime) continueBarDatetime.classList.add('is-visible');
-        });
+        if (isBooked){
+          chip.title = t('time_unavailable', 'Already booked');
+        } else {
+          chip.addEventListener('click', () => {
+            if (!selectedDateIso) return;
+            dtTimeGrid.querySelectorAll('.time-chip').forEach(c => c.classList.remove('is-active'));
+            chip.classList.add('is-active');
+            selectedTime = time;
+            const cal = I18N_CALENDAR[currentLang] || I18N_CALENDAR.en;
+            const d = new Date(selectedDateIso);
+            const display = d.getDate() + ' ' + cal.months[d.getMonth()] + ' ' + d.getFullYear();
+            saveChosenDateTime(selectedDateIso, display, selectedTime);
+            if (continueBarDatetime) continueBarDatetime.classList.add('is-visible');
+          });
+        }
         dtTimeGrid.appendChild(chip);
       });
     }
@@ -1316,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderCalendar();
-    renderTimeSlots();
+    dtTimeGrid.innerHTML = `<span style="grid-column:1/-1; font-size:.85rem; color:var(--ink-soft);">${t('pick_date_first','Pick a date above to see available times')}</span>`;
   }
 
   /* ---------- REVIEW PAGE (review.html) ---------- */
