@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Клиенты — Aurelie Admin</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+  .admin-header{
+    position:sticky; top:0; z-index:100; background:var(--bg-card); border-bottom:1px solid var(--line);
+    padding:16px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  .admin-header__title{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; }
+  .admin-header__user{ display:flex; align-items:center; gap:14px; font-size:.86rem; color:var(--ink-soft); flex-wrap:wrap; }
+  .admin-logout{
+    display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:100px;
+    border:1px solid var(--line); color:var(--ink); font-size:.82rem; font-weight:600;
+  }
+  .admin-logout:hover{ background:var(--bg-alt); }
+  .admin-body{ max-width:1000px; margin:0 auto; padding:24px; }
+
+  .admin-stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:14px; margin-bottom:24px; }
+  .stat-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:18px 20px; }
+  .stat-card__label{ font-size:.78rem; color:var(--ink-soft); font-weight:600; margin-bottom:6px; }
+  .stat-card__value{ font-size:1.5rem; font-weight:800; }
+
+  .client-search{
+    display:flex; align-items:center; gap:10px; background:var(--bg-card); border:1.5px solid var(--line);
+    border-radius:100px; padding:12px 18px; margin-bottom:20px;
+  }
+  .client-search input{ border:none; background:none; width:100%; font-size:15px; color:var(--ink); outline:none; }
+  .client-sort{ display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+  .sort-btn{
+    padding:8px 16px; border-radius:100px; border:1px solid var(--line); font-size:.8rem; font-weight:600;
+    color:var(--ink-soft); background:var(--bg-card);
+  }
+  .sort-btn.is-active{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+
+  .client-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:18px 20px; margin-bottom:12px; display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between;
+  }
+  .client-card__info{ display:flex; align-items:center; gap:14px; }
+  .client-card__avatar{
+    width:44px; height:44px; border-radius:50%; background:var(--bg-alt); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.1rem; flex-shrink:0;
+  }
+  .client-card__name{ font-weight:700; font-size:.96rem; }
+  .client-card__phone{ font-size:.82rem; color:var(--ink-soft); }
+  .client-card__stats{ display:flex; gap:24px; text-align:right; }
+  .client-card__stat-label{ font-size:.72rem; color:var(--ink-soft); }
+  .client-card__stat-value{ font-weight:800; font-size:1rem; }
+  .client-card__stat-value--spent{ color:#276B37; }
+  .client-badge{
+    display:inline-block; padding:2px 10px; border-radius:100px; font-size:.68rem; font-weight:700;
+    background:var(--gold-soft); color:#0B2338; margin-left:8px;
+  }
+  .admin-empty{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+  .admin-loading{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-header__title"><span class="logo__mark">A</span> Aurelie — Клиенты</div>
+  <div class="admin-header__user">
+    <span id="adminEmail"></span>
+    <a href="admin.html" class="admin-logout"><i class="fa-solid fa-list"></i> Заявки</a>
+    <a href="analytics.html" class="admin-logout"><i class="fa-solid fa-chart-pie"></i> Аналитика</a>
+    <a href="#" class="admin-logout" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Выйти</a>
+  </div>
+</header>
+
+<main class="admin-body">
+  <div class="admin-stats">
+    <div class="stat-card">
+      <div class="stat-card__label">Всего клиентов</div>
+      <div class="stat-card__value" id="statClients">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Постоянных (2+ визита)</div>
+      <div class="stat-card__value" id="statReturning">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Средний чек</div>
+      <div class="stat-card__value" id="statAvgCheck">—</div>
+    </div>
+  </div>
+
+  <div class="client-search">
+    <i class="fa-solid fa-magnifying-glass" style="color:var(--ink-soft);"></i>
+    <input type="text" id="clientSearch" placeholder="Поиск по имени или телефону">
+  </div>
+
+  <div class="client-sort">
+    <button class="sort-btn is-active" data-sort="spent">По сумме трат</button>
+    <button class="sort-btn" data-sort="visits">По числу визитов</button>
+    <button class="sort-btn" data-sort="recent">По последнему визиту</button>
+  </div>
+
+  <div id="clientsList">
+    <div class="admin-loading">Загрузка клиентов...</div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://iuwyjhltxrdcrtvvaawh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_8sRsLw4ZhDgXCDxMMdc3CA_GayUBCYL';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let clients = [];
+  let currentSort = 'spent';
+  let searchQuery = '';
+
+  async function init(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session){ window.location.href = 'admin-login.html'; return; }
+    document.getElementById('adminEmail').textContent = session.user.email;
+
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await supabaseClient.auth.signOut();
+      window.location.href = 'admin-login.html';
+    });
+
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        currentSort = btn.dataset.sort;
+        renderClients();
+      });
+    });
+
+    document.getElementById('clientSearch').addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim().toLowerCase();
+      renderClients();
+    });
+
+    await loadClients();
+  }
+
+  function normalizePhone(phone){
+    return (phone || '').replace(/\D/g, '');
+  }
+
+  async function loadClients(){
+    const { data, error } = await supabaseClient
+      .from('bookings')
+      .select('client_name, client_phone, total_price, status, booking_date')
+      .order('booking_date', { ascending: false });
+
+    if (error){
+      document.getElementById('clientsList').innerHTML =
+        '<div class="admin-empty">Не удалось загрузить клиентов: ' + error.message + '</div>';
+      return;
+    }
+
+    const grouped = {};
+    (data || []).forEach(b => {
+      const key = normalizePhone(b.client_phone);
+      if (!key) return;
+      if (!grouped[key]){
+        grouped[key] = {
+          name: b.client_name, phone: b.client_phone,
+          visits: 0, spent: 0, lastDate: b.booking_date, cancelled: 0
+        };
+      }
+      const c = grouped[key];
+      // Keep the most recent name/date (list is already sorted newest first)
+      if (b.booking_date && (!c.lastDate || b.booking_date > c.lastDate)){
+        c.lastDate = b.booking_date;
+        c.name = b.client_name;
+      }
+      if (b.status === 'completed'){
+        c.visits += 1;
+        c.spent += (b.total_price || 0);
+      } else if (b.status === 'cancelled'){
+        c.cancelled += 1;
+      }
+    });
+
+    clients = Object.values(grouped);
+    renderStats();
+    renderClients();
+  }
+
+  function renderStats(){
+    const total = clients.length;
+    const returning = clients.filter(c => c.visits >= 2).length;
+    const totalSpent = clients.reduce((sum, c) => sum + c.spent, 0);
+    const totalVisits = clients.reduce((sum, c) => sum + c.visits, 0);
+    const avgCheck = totalVisits ? Math.round(totalSpent / totalVisits) : 0;
+
+    document.getElementById('statClients').textContent = total;
+    document.getElementById('statReturning').textContent = returning;
+    document.getElementById('statAvgCheck').textContent = avgCheck.toLocaleString('ru-RU') + ' сом';
+  }
+
+  function renderClients(){
+    const list = document.getElementById('clientsList');
+    let filtered = clients.filter(c =>
+      !searchQuery ||
+      (c.name || '').toLowerCase().includes(searchQuery) ||
+      (c.phone || '').includes(searchQuery)
+    );
+
+    filtered.sort((a, b) => {
+      if (currentSort === 'spent') return b.spent - a.spent;
+      if (currentSort === 'visits') return b.visits - a.visits;
+      if (currentSort === 'recent') return (b.lastDate || '').localeCompare(a.lastDate || '');
+      return 0;
+    });
+
+    if (!filtered.length){
+      list.innerHTML = '<div class="admin-empty">Клиенты не найдены</div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(c => {
+      const initial = (c.name || '?').trim().charAt(0).toUpperCase();
+      const lastVisitDisplay = c.lastDate
+        ? new Date(c.lastDate).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' })
+        : '—';
+      const isReturning = c.visits >= 2;
+      return `
+        <div class="client-card">
+          <div class="client-card__info">
+            <div class="client-card__avatar">${initial}</div>
+            <div>
+              <div class="client-card__name">${escapeHtml(c.name)} ${isReturning ? '<span class="client-badge">Постоянный</span>' : ''}</div>
+              <div class="client-card__phone">${escapeHtml(c.phone)} · последний визит: ${lastVisitDisplay}</div>
+            </div>
+          </div>
+          <div class="client-card__stats">
+            <div>
+              <div class="client-card__stat-label">Визитов</div>
+              <div class="client-card__stat-value">${c.visits}</div>
+            </div>
+            <div>
+              <div class="client-card__stat-label">Потрачено</div>
+              <div class="client-card__stat-value client-card__stat-value--spent">${c.spent.toLocaleString('ru-RU')} сом</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  init();
+</script>
+</body>
+</html>
