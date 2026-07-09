@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход для сотрудников — Aurelie</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+  body{ display:flex; align-items:center; justify-content:center; min-height:100vh; background:var(--bg); }
+  .login-card{
+    width:100%; max-width:380px; background:var(--bg-card); border:1px solid var(--line);
+    border-radius:var(--radius-lg); padding:40px 32px; box-shadow:var(--shadow-md); margin:20px;
+  }
+  .login-card__logo{ text-align:center; margin-bottom:8px; }
+  .login-card__logo .logo__mark{ margin:0 auto 12px; }
+  .login-card h1{ text-align:center; font-size:1.3rem; margin-bottom:6px; }
+  .login-card p{ text-align:center; color:var(--ink-soft); font-size:.88rem; margin-bottom:28px; }
+  .login-card .form-group{ margin-bottom:16px; }
+  .login-card label{ font-size:.82rem; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:6px; }
+  .login-card input{
+    width:100%; padding:13px 16px; border:1.5px solid var(--line); border-radius:12px;
+    background:var(--bg); color:var(--ink); font-size:16px; font-family:inherit;
+  }
+  .login-card input:focus{ outline:none; border-color:var(--gold); }
+  .login-card .btn{ width:100%; margin-top:8px; }
+  .login-error{
+    display:none; background:#FCE8E6; color:#B3261E; font-size:.84rem;
+    padding:10px 14px; border-radius:10px; margin-bottom:16px; text-align:center;
+  }
+  .login-error.is-visible{ display:block; }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="login-card__logo">
+    <span class="logo__mark" style="margin:0 auto;">A</span>
+  </div>
+  <h1>Вход для сотрудников</h1>
+  <p>Aurelie Beauty Studio — панель управления записями</p>
+
+  <div class="login-error" id="loginError">Неверный email или пароль</div>
+
+  <form id="loginForm">
+    <div class="form-group">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" autocomplete="username" required>
+    </div>
+    <div class="form-group">
+      <label for="loginPassword">Пароль</label>
+      <input type="password" id="loginPassword" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn btn--gold btn--lg" id="loginBtn">Войти</button>
+  </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://iuwyjhltxrdcrtvvaawh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_8sRsLw4ZhDgXCDxMMdc3CA_GayUBCYL';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const form = document.getElementById('loginForm');
+  const errorBox = document.getElementById('loginError');
+  const loginBtn = document.getElementById('loginBtn');
+
+  // If already logged in, skip straight to the dashboard
+  supabaseClient.auth.getSession().then(({ data }) => {
+    if (data.session) window.location.href = 'admin.html';
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.classList.remove('is-visible');
+    loginBtn.textContent = 'Вход...';
+    loginBtn.style.pointerEvents = 'none';
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+    if (error){
+      errorBox.textContent = 'Неверный email или пароль';
+      errorBox.classList.add('is-visible');
+      loginBtn.textContent = 'Войти';
+      loginBtn.style.pointerEvents = 'auto';
+    } else {
+      window.location.href = 'admin.html';
+    }
+  });
+</script>
+</body>
+</html>
