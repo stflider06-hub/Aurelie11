@@ -765,7 +765,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   margin-bottom:12px; cursor:pointer; transition:border-color var(--transition), background var(--transition);
 }
 .service-row:hover{ border-color:var(--gold); }
-.service-row.is-selected{ border-color:var(--gold); background:var(--gold-soft); }
+.service-row.is-selected{ border-color:var(--gold); background:var(--bg-card); }
 .service-row__img{ width:56px; height:56px; border-radius:50%; object-fit:cover; flex-shrink:0; }
 .service-row__body{ flex:1; }
 .service-row__body h4{ font-size:.98rem; margin-bottom:3px; }
@@ -785,7 +785,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   cursor:pointer; transition:border-color var(--transition), background var(--transition);
 }
 .specialist-row:hover{ border-color:var(--gold); }
-.specialist-row.is-selected{ border-color:var(--gold); background:var(--gold-soft); }
+.specialist-row.is-selected{ border-color:var(--gold); background:var(--bg-card); }
 .specialist-row__img{ width:64px; height:64px; border-radius:50%; object-fit:cover; flex-shrink:0; }
 .specialist-row__body{ flex:1; }
 .specialist-row__body h4{ font-size:1rem; margin-bottom:2px; }
@@ -853,29 +853,29 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .date-strip{ display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:14px; }
 .date-strip::-webkit-scrollbar{ display:none; }
 .date-chip{
-  flex-shrink:0; min-width:56px; padding:10px 8px; border-radius:14px; border:1px solid var(--line);
-  text-align:center; cursor:pointer; transition:all var(--transition);
+  flex-shrink:0; min-width:56px; padding:10px 8px; border-radius:100px; border:none;
+  background:var(--bg-alt); text-align:center; cursor:pointer; transition:all var(--transition);
 }
 .date-chip__label{ display:block; font-size:.66rem; color:var(--ink-soft); text-transform:uppercase; margin-bottom:4px; font-family:var(--font-utility); font-weight:600; }
 .date-chip__num{ display:block; font-size:1rem; font-weight:700; color:var(--ink); }
 .date-chip.is-today .date-chip__label{ color:var(--gold); }
-.date-chip:hover{ border-color:var(--gold); }
+.date-chip:hover{ background:var(--beige); }
 .date-chip.is-active{ background:var(--ink); border-color:var(--ink); }
 .date-chip.is-active .date-chip__label, .date-chip.is-active .date-chip__num{ color:var(--bg); }
 [data-theme="dark"] .date-chip.is-active .date-chip__label, [data-theme="dark"] .date-chip.is-active .date-chip__num{ color:var(--bg-card); }
 
 .time-grid{ display:grid; grid-template-columns:repeat(6, 1fr); gap:8px; }
 .time-chip{
-  padding:10px 4px; border-radius:12px; border:1px solid var(--line); text-align:center;
+  padding:10px 4px; border-radius:100px; border:none; background:var(--bg-alt); text-align:center;
   font-size:.82rem; font-weight:600; color:var(--ink); cursor:pointer; transition:all var(--transition);
 }
-.time-chip:hover{ border-color:var(--gold); }
-.time-chip.is-active{ background:var(--gold); border-color:var(--gold); color:#0B2338; }
+.time-chip:hover{ background:var(--beige); }
+.time-chip.is-active{ background:var(--gold); color:#0B2338; }
 .time-chip.is-booked{
-  background:var(--bg-alt); color:var(--line); border-color:var(--line);
+  background:var(--bg-alt); color:var(--line);
   cursor:not-allowed; text-decoration:line-through; opacity:.7;
 }
-.time-chip.is-booked:hover{ border-color:var(--line); }
+.time-chip.is-booked:hover{ background:var(--bg-alt); }
 
 /* ============ STICKY SUMMARY BAR (specialists.html) ============ */
 .summary-bar{
@@ -1069,7 +1069,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 }
 .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
 .calendar-day{
-  aspect-ratio:1; border-radius:12px; display:flex; align-items:center; justify-content:center;
+  aspect-ratio:1; border-radius:16px; display:flex; align-items:center; justify-content:center;
   font-family:var(--font-utility); font-weight:700; font-size:.9rem; color:var(--ink);
   background:var(--bg-alt); transition:all var(--transition);
 }
