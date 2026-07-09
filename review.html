@@ -117,12 +117,20 @@
           </div>
           <button type="submit" class="btn btn--gold btn--lg book-submit-btn" id="reviewSubmit" data-i18n="form_submit">Confirm Booking</button>
         </form>
+
+        <div class="booking-success" id="bookingSuccess">
+          <i class="fa-solid fa-circle-check"></i>
+          <h3 data-i18n="success_title">Thank you!</h3>
+          <p data-i18n="success_text">Your request has been received. We'll confirm your appointment shortly by phone or SMS.</p>
+          <a href="index.html" class="btn btn--outline" data-i18n="success_close">Close</a>
+        </div>
       </div>
 
     </div>
   </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
 </html>

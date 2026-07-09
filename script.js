@@ -3,6 +3,17 @@
    Vanilla JS only. No dependencies, no backend.
    ========================================================= */
 
+/* ---------- SUPABASE CONNECTION ----------
+   Only loaded on pages that include the Supabase library (currently review.html).
+   Using the public "anon"/"publishable" key here is safe — it can only do what
+   the database's Row Level Security policies allow (view specialists/services,
+   create new bookings). It can NOT read, edit, or delete existing bookings. */
+const SUPABASE_URL = 'https://iuwyjhltxrdcrtvvaawh.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_8sRsLw4ZhDgXCDxMMdc3CA_GayUBCYL';
+const supabaseClient = (typeof window.supabase !== 'undefined')
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ---------- LOADING SCREEN ---------- */
@@ -226,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_name:"Пожалуйста, введите имя.", form_err_phone:"Введите корректный номер телефона.",
       form_err_service:"Пожалуйста, выберите услугу.", form_err_date:"Пожалуйста, выберите дату.", form_err_time:"Пожалуйста, выберите время.",
       success_title:"Спасибо!", success_text:"Ваша заявка принята. Мы подтвердим запись по телефону или SMS.", success_close:"Закрыть",
+      booking_sending:"Отправка...", booking_failed:"Ошибка — попробуйте ещё раз",
       contact_eyebrow:"— Свяжитесь с нами", contact_title:"Приходите или напишите",
       contact_address_l:"Адрес", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Часы работы",
       contact_hours_v:"Пн–Сб: 9:00–20:00, Вс: 10:00–18:00",
@@ -341,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_name:"Атыңызды енгізіңіз.", form_err_phone:"Дұрыс телефон нөірін енгізіңіз.",
       form_err_service:"Қызметті таңдаңыз.", form_err_date:"Күнді таңдаңыз.", form_err_time:"Уақытты таңдаңыз.",
       success_title:"Рахмет!", success_text:"Сұранысыңыз қабылданды. Жазылуыңызды телефон немесе SMS арқылы растаймыз.", success_close:"Жабу",
+      booking_sending:"Жіберілуде...", booking_failed:"Қате — қайта көріңіз",
       contact_eyebrow:"— Бізбен байланысыңыз", contact_title:"Келіңіз немесе жазыңыз",
       contact_address_l:"Мекенжай", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Жұмыс уақыты",
       contact_hours_v:"Дс–Сб: 9:00–20:00, Жс: 10:00–18:00",
@@ -456,6 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_name:"Атыңызды киргизиңиз.", form_err_phone:"Туура телефон номерин киргизиңиз.",
       form_err_service:"Кызматты тандаңыз.", form_err_date:"Күндү тандаңыз.", form_err_time:"Убакытты тандаңыз.",
       success_title:"Рахмат!", success_text:"Өтүнүчүңүз кабыл алынды. Жазылууну телефон же SMS аркылуу тастыктайбыз.", success_close:"Жабуу",
+      booking_sending:"Жөнөтүлүүдө...", booking_failed:"Ката — кайра аракет кылыңыз",
       contact_eyebrow:"— Биз менен байланышыңыз", contact_title:"Келиңиз же жазыңыз",
       contact_address_l:"Дареги", contact_phone_l:"Телефон", contact_email_l:"Email", contact_hours_l:"Жумуш убактысы",
       contact_hours_v:"Дүй–Ишм: 9:00–20:00, Жек: 10:00–18:00",
@@ -571,6 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form_err_name:"Ismingizni kiriting.", form_err_phone:"To'g'ri telefon raqamini kiriting.",
       form_err_service:"Xizmatni tanlang.", form_err_date:"Sanani tanlang.", form_err_time:"Vaqtni tanlang.",
       success_title:"Rahmat!", success_text:"So'rovingiz qabul qilindi. Yozilishni telefon yoki SMS orqali tasdiqlaymiz.", success_close:"Yopish",
+      booking_sending:"Yuborilmoqda...", booking_failed:"Xatolik — qayta urinib ko'ring",
       contact_eyebrow:"— Biz bilan bog'laning", contact_title:"Keling yoki yozing",
       contact_address_l:"Manzil", contact_phone_l:"Telefon", contact_email_l:"Email", contact_hours_l:"Ish vaqti",
       contact_hours_v:"Du–Sh: 9:00–20:00, Ya: 10:00–18:00",
@@ -879,23 +894,45 @@ document.addEventListener('DOMContentLoaded', () => {
   function t(key, fallback){ return (translations[currentLang] && translations[currentLang][key]) || fallback; }
   function serviceDisplayName(s){ return s.nameKey ? t(s.nameKey, s.name) : s.name; }
 
-  function sendBookingToWhatsapp(name, phone, comment){
+  async function submitBookingToDatabase(name, phone, comment){
     const services = getSelectedServices();
-    const specialist = getChosenSpecialist() || 'Any specialist';
+    const specialistName = getChosenSpecialist();
     const dt = getChosenDateTime();
     const totals = getServicesTotals();
-    const serviceText = services.length
-      ? services.map(s => `${serviceDisplayName(s)} — ${s.price} сом`).join('\n')
-      : 'not specified';
-    let message = `Hello! I'd like to book an appointment.\n\n`;
-    message += `Specialist: ${specialist}\n`;
-    if (dt.dateLabel && dt.time) message += `Date & time: ${dt.dateLabel}, ${dt.time}\n`;
-    message += `\nServices:\n${serviceText}\n\nTotal: ${totals.price} сом (${formatDuration(totals.minutes)})\n`;
-    if (name) message += `\nName: ${name}`;
-    if (phone) message += `\nPhone: ${phone}`;
-    if (comment) message += `\nComment: ${comment}`;
-    const url = 'https://wa.me/996559751050?text=' + encodeURIComponent(message);
-    window.open(url, '_blank');
+
+    if (!supabaseClient){
+      return { ok:false, error:'Database connection not available.' };
+    }
+
+    let specialistId = null;
+    if (specialistName && specialistName !== 'Any specialist'){
+      const { data: specData } = await supabaseClient
+        .from('specialists').select('id').eq('name', specialistName).limit(1).maybeSingle();
+      if (specData) specialistId = specData.id;
+    }
+
+    let serviceIds = [];
+    if (services.length){
+      const names = services.map(s => s.name);
+      const { data: svcData } = await supabaseClient
+        .from('services').select('id, name_en').in('name_en', names);
+      if (svcData) serviceIds = svcData.map(s => s.id);
+    }
+
+    const { error } = await supabaseClient.from('bookings').insert({
+      specialist_id: specialistId,
+      service_ids: serviceIds,
+      client_name: name,
+      client_phone: phone,
+      comment: comment || null,
+      booking_date: dt.date || null,
+      booking_time: dt.time || null,
+      total_price: totals.price,
+      status: 'pending'
+    });
+
+    if (error){ console.error('Booking save failed:', error); return { ok:false, error: error.message }; }
+    return { ok:true };
   }
 
   /* ---------- SERVICE SELECTION PAGE (services.html) ---------- */
@@ -1370,10 +1407,34 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    reviewForm.addEventListener('submit', (e) => {
+    reviewForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!submitBtn.classList.contains('is-ready')) return;
-      sendBookingToWhatsapp(nameInput.value.trim(), phoneInput.value.trim(), commentInput.value.trim());
+
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = t('booking_sending', 'Sending...');
+      submitBtn.classList.remove('is-ready');
+      submitBtn.style.pointerEvents = 'none';
+
+      const result = await submitBookingToDatabase(
+        nameInput.value.trim(), phoneInput.value.trim(), commentInput.value.trim()
+      );
+
+      if (result.ok){
+        reviewForm.style.display = 'none';
+        const successEl = document.getElementById('bookingSuccess');
+        if (successEl) successEl.classList.add('is-visible');
+        // Clear the booking state so a fresh visit starts clean
+        saveSelectedServices([]);
+        saveChosenSpecialist('');
+        localStorageSafeSet('aurelie_specialist_set_via', '');
+        saveChosenDateTime('', '', '');
+      } else {
+        submitBtn.textContent = t('booking_failed', 'Something went wrong — please try again');
+        submitBtn.classList.add('is-ready');
+        submitBtn.style.pointerEvents = 'auto';
+        setTimeout(() => { submitBtn.textContent = originalText; }, 3000);
+      }
     });
   }
 
