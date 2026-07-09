@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мои записи — Aurelie</title>
+<link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+  .admin-header{
+    position:sticky; top:0; z-index:100; background:var(--bg-card); border-bottom:1px solid var(--line);
+    padding:16px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  .admin-header__title{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.05rem; }
+  .admin-header__user{ display:flex; align-items:center; gap:10px; font-size:.86rem; color:var(--ink-soft); flex-wrap:wrap; }
+  .admin-logout{
+    display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:100px;
+    border:1px solid var(--line); color:var(--ink-soft); font-size:.82rem; font-weight:600; background:transparent;
+  }
+  .admin-logout:hover{ background:var(--bg-alt); color:var(--ink); }
+  .admin-body{ max-width:800px; margin:0 auto; padding:24px; }
+
+  @media (max-width:640px){
+    .admin-header{ padding:12px 16px; }
+    .admin-header__title{ font-size:.92rem; }
+    .admin-header__user > span{ width:100%; order:-1; margin-bottom:2px; font-size:.76rem; }
+    .admin-body{ padding:16px; }
+  }
+
+  .admin-stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:14px; margin-bottom:24px; }
+  .stat-card{ background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md); padding:18px 20px; }
+  .stat-card__label{ font-size:.78rem; color:var(--ink-soft); font-weight:600; margin-bottom:6px; }
+  .stat-card__value{ font-size:1.5rem; font-weight:800; }
+
+  .admin-tabs{ display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+  .admin-tab{
+    padding:9px 18px; border-radius:100px; border:1px solid var(--line); font-size:.84rem; font-weight:600;
+    color:var(--ink-soft); background:var(--bg-card);
+  }
+  .admin-tab.is-active{ background:var(--ink); color:var(--bg); border-color:var(--ink); }
+
+  .booking-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:20px; margin-bottom:14px; display:flex; flex-wrap:wrap; gap:16px; align-items:flex-start;
+  }
+  .booking-card__main{ flex:1; min-width:220px; }
+  .booking-card__name{ font-weight:700; font-size:1rem; margin-bottom:2px; }
+  .booking-card__phone{ color:var(--ink-soft); font-size:.86rem; margin-bottom:10px; }
+  .booking-card__row{ display:flex; gap:8px; font-size:.86rem; margin-bottom:4px; }
+  .booking-card__row i{ width:16px; color:var(--gold); }
+  .booking-card__services{ color:var(--ink-soft); }
+  .booking-card__side{ text-align:right; min-width:130px; }
+  .status-badge{ display:inline-block; padding:4px 12px; border-radius:100px; font-size:.74rem; font-weight:700; margin-bottom:12px; }
+  .status-pending{ background:#FFF3CD; color:#8A6D1D; }
+  .status-confirmed{ background:#D4EDDA; color:#276B37; }
+  .status-cancelled{ background:#FCE8E6; color:#B3261E; }
+  .status-completed{ background:var(--bg-alt); color:var(--ink-soft); }
+  .btn-complete{
+    padding:7px 14px; border-radius:100px; font-size:.78rem; font-weight:700; border:1px solid var(--line);
+    background:var(--ink); color:var(--bg);
+  }
+  .admin-empty{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+  .admin-loading{ text-align:center; padding:60px 20px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="admin-header__title"><span class="logo__mark">A</span> Aurelie — Мои записи</div>
+  <div class="admin-header__user">
+    <span id="staffName"></span>
+    <a href="#" class="admin-logout" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Выйти</a>
+  </div>
+</header>
+
+<main class="admin-body">
+  <div class="admin-stats">
+    <div class="stat-card">
+      <div class="stat-card__label">Записей сегодня</div>
+      <div class="stat-card__value" id="statToday">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Всего записей</div>
+      <div class="stat-card__value" id="statTotal">—</div>
+    </div>
+  </div>
+
+  <div class="admin-tabs" id="adminTabs">
+    <button class="admin-tab is-active" data-status="all">Все</button>
+    <button class="admin-tab" data-status="confirmed">Подтверждённые</button>
+    <button class="admin-tab" data-status="completed">Завершённые</button>
+  </div>
+
+  <div id="bookingsList">
+    <div class="admin-loading">Загрузка...</div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://iuwyjhltxrdcrtvvaawh.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_8sRsLw4ZhDgXCDxMMdc3CA_GayUBCYL';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let allBookings = [];
+  let currentFilter = 'all';
+
+  async function init(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session){ window.location.href = 'admin-login.html'; return; }
+
+    const { data: staffRow } = await supabaseClient
+      .from('staff').select('role, specialists(name)').eq('user_id', session.user.id).maybeSingle();
+
+    if (!staffRow){
+      alert('Ваш аккаунт ещё не привязан ни к одной роли. Обратитесь к администратору.');
+      await supabaseClient.auth.signOut();
+      window.location.href = 'admin-login.html';
+      return;
+    }
+    if (staffRow.role === 'owner' || staffRow.role === 'manager'){
+      window.location.href = 'admin.html';
+      return;
+    }
+
+    document.getElementById('staffName').textContent = staffRow.specialists ? staffRow.specialists.name : session.user.email;
+
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await supabaseClient.auth.signOut();
+      window.location.href = 'admin-login.html';
+    });
+
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        currentFilter = tab.dataset.status;
+        renderBookings();
+      });
+    });
+
+    await loadServices();
+    await loadBookings();
+  }
+
+  let serviceMap = {};
+  async function loadServices(){
+    const { data } = await supabaseClient.from('services').select('id, name_ru, name_en');
+    (data || []).forEach(s => { serviceMap[s.id] = s.name_ru || s.name_en; });
+  }
+
+  async function loadBookings(){
+    // RLS automatically restricts this to only this specialist's own bookings
+    const { data, error } = await supabaseClient
+      .from('bookings').select('*')
+      .neq('status', 'cancelled')
+      .order('booking_date', { ascending: true })
+      .order('booking_time', { ascending: true });
+
+    if (error){
+      document.getElementById('bookingsList').innerHTML = '<div class="admin-empty">Не удалось загрузить: ' + error.message + '</div>';
+      return;
+    }
+    allBookings = data || [];
+    renderStats();
+    renderBookings();
+  }
+
+  function renderStats(){
+    const todayStr = new Date().toISOString().split('T')[0];
+    document.getElementById('statToday').textContent = allBookings.filter(b => b.booking_date === todayStr).length;
+    document.getElementById('statTotal').textContent = allBookings.length;
+  }
+
+  function renderBookings(){
+    const list = document.getElementById('bookingsList');
+    const filtered = currentFilter === 'all' ? allBookings : allBookings.filter(b => b.status === currentFilter);
+
+    if (!filtered.length){
+      list.innerHTML = '<div class="admin-empty">Записей нет</div>';
+      return;
+    }
+
+    const statusLabels = { pending:'Новая', confirmed:'Подтверждена', completed:'Завершена' };
+
+    list.innerHTML = filtered.map(b => {
+      const serviceNames = (b.service_ids || []).map(id => serviceMap[id] || '—').join(', ');
+      const dateDisplay = b.booking_date ? new Date(b.booking_date).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) : '—';
+      const timeDisplay = b.booking_time ? b.booking_time.slice(0,5) : '';
+      const canComplete = b.status === 'confirmed';
+
+      return `
+        <div class="booking-card">
+          <div class="booking-card__main">
+            <div class="booking-card__name">${escapeHtml(b.client_name)}</div>
+            <div class="booking-card__phone">${escapeHtml(b.client_phone)}</div>
+            <div class="booking-card__row"><i class="fa-regular fa-calendar"></i> ${dateDisplay} · ${timeDisplay}</div>
+            <div class="booking-card__row booking-card__services"><i class="fa-solid fa-list"></i> ${serviceNames || 'не указано'}</div>
+          </div>
+          <div class="booking-card__side">
+            <span class="status-badge status-${b.status}">${statusLabels[b.status] || b.status}</span>
+            ${canComplete ? `<div><button class="btn-complete" onclick="markComplete('${b.id}')">Завершить</button></div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function markComplete(id){
+    const { error } = await supabaseClient.from('bookings').update({ status: 'completed' }).eq('id', id);
+    if (error){ alert('Не удалось обновить: ' + error.message); return; }
+    await loadBookings();
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  init();
+</script>
+</body>
+</html>

@@ -19,9 +19,17 @@
   .admin-header__user{ display:flex; align-items:center; gap:14px; font-size:.86rem; color:var(--ink-soft); flex-wrap:wrap; }
   .admin-logout{
     display:flex; align-items:center; gap:6px; padding:8px 14px; border-radius:100px;
-    border:1px solid var(--line); color:var(--ink); font-size:.82rem; font-weight:600;
+    border:1px solid var(--line); color:var(--ink-soft); font-size:.82rem; font-weight:600;
+    background:transparent;
   }
-  .admin-logout:hover{ background:var(--bg-alt); }
+  .admin-logout:hover{ background:var(--bg-alt); color:var(--ink); }
+  .admin-nav-btn{
+    display:flex; align-items:center; gap:7px; padding:10px 18px; border-radius:100px;
+    border:1.5px solid var(--gold); color:#0B2338; font-size:.86rem; font-weight:800;
+    background:var(--gold-soft); transition:all var(--transition);
+  }
+  .admin-nav-btn:hover{ background:var(--gold); transform:translateY(-1px); }
+  .admin-nav-btn.is-current{ background:var(--gold); box-shadow:var(--shadow-sm); }
   .admin-body{ max-width:1000px; margin:0 auto; padding:24px; }
 
   @media (max-width:640px){
@@ -82,8 +90,8 @@
   <div class="admin-header__title"><span class="logo__mark">A</span> Aurelie — Клиенты</div>
   <div class="admin-header__user">
     <span id="adminEmail"></span>
-    <a href="admin.html" class="admin-logout"><i class="fa-solid fa-list"></i> Заявки</a>
-    <a href="analytics.html" class="admin-logout"><i class="fa-solid fa-chart-pie"></i> Аналитика</a>
+    <a href="admin.html" class="admin-nav-btn"><i class="fa-solid fa-list"></i> Заявки</a>
+    <a href="analytics.html" class="admin-nav-btn"><i class="fa-solid fa-chart-pie"></i> Аналитика</a>
     <a href="#" class="admin-logout" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Выйти</a>
   </div>
 </header>
@@ -133,6 +141,12 @@
   async function init(){
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (!session){ window.location.href = 'admin-login.html'; return; }
+
+    const { data: staffRow } = await supabaseClient
+      .from('staff').select('role').eq('user_id', session.user.id).maybeSingle();
+    if (staffRow && staffRow.role === 'specialist'){
+      window.location.href = 'my-bookings.html'; return;
+    }
     document.getElementById('adminEmail').textContent = session.user.email;
 
     document.getElementById('logoutBtn').addEventListener('click', async (e) => {

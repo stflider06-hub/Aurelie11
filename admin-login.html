@@ -69,9 +69,21 @@
   const errorBox = document.getElementById('loginError');
   const loginBtn = document.getElementById('loginBtn');
 
-  // If already logged in, skip straight to the dashboard
+  async function redirectByRole(){
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) return;
+    const { data: staffRow } = await supabaseClient
+      .from('staff').select('role').eq('user_id', session.user.id).maybeSingle();
+    if (staffRow && staffRow.role === 'specialist'){
+      window.location.href = 'my-bookings.html';
+    } else {
+      window.location.href = 'admin.html';
+    }
+  }
+
+  // If already logged in, skip straight to the right dashboard
   supabaseClient.auth.getSession().then(({ data }) => {
-    if (data.session) window.location.href = 'admin.html';
+    if (data.session) redirectByRole();
   });
 
   form.addEventListener('submit', async (e) => {
@@ -91,7 +103,7 @@
       loginBtn.textContent = 'Войти';
       loginBtn.style.pointerEvents = 'auto';
     } else {
-      window.location.href = 'admin.html';
+      await redirectByRole();
     }
   });
 </script>
