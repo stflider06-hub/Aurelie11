@@ -118,6 +118,7 @@
   <div class="admin-header__title"><span class="logo__mark">A</span> Aurelie — Заявки</div>
   <div class="admin-header__user">
     <span id="adminEmail"></span>
+    <a href="analytics.html" class="admin-logout"><i class="fa-solid fa-chart-pie"></i> Аналитика</a>
     <a href="#" class="admin-logout" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Выйти</a>
   </div>
 </header>
@@ -131,18 +132,6 @@
     <div class="stat-card stat-card--pending">
       <div class="stat-card__label">Новых заявок</div>
       <div class="stat-card__value" id="statPending">—</div>
-    </div>
-    <div class="stat-card stat-card--income">
-      <div class="stat-card__label">Доход за месяц</div>
-      <div class="stat-card__value" id="statIncome">—</div>
-    </div>
-    <div class="stat-card stat-card--expense">
-      <div class="stat-card__label">Расход за месяц</div>
-      <div class="stat-card__value" id="statExpense">—</div>
-    </div>
-    <div class="stat-card stat-card--profit">
-      <div class="stat-card__label">Прибыль за месяц</div>
-      <div class="stat-card__value" id="statProfit">—</div>
     </div>
     <div class="stat-card">
       <div class="stat-card__label">Всего заявок</div>
@@ -188,6 +177,10 @@
           <option value="Зарплата">Зарплата</option>
           <option value="Другое">Другое</option>
         </select>
+      </div>
+      <div class="form-group" id="expSpecialistGroup" style="display:none;">
+        <label for="expSpecialist">Кому (мастер)</label>
+        <select id="expSpecialist"></select>
       </div>
       <div class="form-group">
         <label for="expDate">Дата</label>
@@ -243,24 +236,36 @@
     });
 
     document.getElementById('expDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('expCategory').addEventListener('change', (e) => {
+      document.getElementById('expSpecialistGroup').style.display = e.target.value === 'Зарплата' ? '' : 'none';
+    });
     document.getElementById('expenseForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const description = document.getElementById('expDesc').value.trim();
       const amount = parseInt(document.getElementById('expAmount').value, 10);
       const category = document.getElementById('expCategory').value;
       const expense_date = document.getElementById('expDate').value;
+      const specialist_id = category === 'Зарплата' ? (document.getElementById('expSpecialist').value || null) : null;
       if (!description || !amount) return;
 
-      const { error } = await supabaseClient.from('expenses').insert({ description, amount, category, expense_date });
+      const { error } = await supabaseClient.from('expenses').insert({ description, amount, category, expense_date, specialist_id });
       if (error){ alert('Не удалось добавить расход: ' + error.message); return; }
       e.target.reset();
       document.getElementById('expDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('expSpecialistGroup').style.display = 'none';
       await loadExpenses();
     });
 
     await loadServices();
+    await loadSpecialistsForForm();
     await loadBookings();
     await loadExpenses();
+  }
+
+  async function loadSpecialistsForForm(){
+    const { data } = await supabaseClient.from('specialists').select('id, name').eq('is_active', true);
+    const select = document.getElementById('expSpecialist');
+    select.innerHTML = (data || []).map(s => `<option value="${s.id}">${escapeHtml(s.name)}</option>`).join('');
   }
 
   let allExpenses = [];
@@ -396,33 +401,13 @@ ${serviceLines}
   function renderStats(){
     const today = new Date();
     const todayStr = today.toISOString().split('T')[0];
-    const thisMonth = today.getMonth();
-    const thisYear = today.getFullYear();
 
     const todayCount = allBookings.filter(b => b.booking_date === todayStr && b.status !== 'cancelled').length;
     const pendingCount = allBookings.filter(b => b.status === 'pending').length;
-    const monthIncome = allBookings
-      .filter(b => {
-        if (b.status !== 'completed' || !b.booking_date) return false;
-        const d = new Date(b.booking_date);
-        return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
-      })
-      .reduce((sum, b) => sum + (b.total_price || 0), 0);
-    const monthExpense = allExpenses
-      .filter(ex => {
-        if (!ex.expense_date) return false;
-        const d = new Date(ex.expense_date);
-        return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
-      })
-      .reduce((sum, ex) => sum + (ex.amount || 0), 0);
-    const monthProfit = monthIncome - monthExpense;
     const totalCount = allBookings.length;
 
     document.getElementById('statToday').textContent = todayCount;
     document.getElementById('statPending').textContent = pendingCount;
-    document.getElementById('statIncome').textContent = monthIncome.toLocaleString('ru-RU') + ' сом';
-    document.getElementById('statExpense').textContent = monthExpense.toLocaleString('ru-RU') + ' сом';
-    document.getElementById('statProfit').textContent = monthProfit.toLocaleString('ru-RU') + ' сом';
     document.getElementById('statTotal').textContent = totalCount;
   }
 
