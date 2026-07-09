@@ -24,6 +24,54 @@
   .admin-logout:hover{ background:var(--bg-alt); }
   .admin-body{ max-width:1000px; margin:0 auto; padding:24px; }
   .admin-tabs{ display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+  .admin-stats{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:14px; margin-bottom:24px;
+  }
+  .stat-card{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:18px 20px;
+  }
+  .stat-card__label{ font-size:.78rem; color:var(--ink-soft); font-weight:600; margin-bottom:6px; }
+  .stat-card__value{ font-size:1.5rem; font-weight:800; }
+  .stat-card--income .stat-card__value{ color:#276B37; }
+  .stat-card--pending .stat-card__value{ color:#8A6D1D; }
+  .stat-card--expense .stat-card__value{ color:#B3261E; }
+  .stat-card--profit .stat-card__value{ color:#1E6FBF; }
+  @media (max-width:700px){
+    .admin-stats{ grid-template-columns:repeat(2, 1fr); }
+  }
+  .admin-sections{ display:flex; gap:8px; margin-bottom:20px; }
+  .admin-section-btn{
+    padding:10px 20px; border-radius:100px; border:1px solid var(--line); font-size:.86rem; font-weight:700;
+    color:var(--ink-soft); background:var(--bg-card);
+  }
+  .admin-section-btn.is-active{ background:var(--gold); color:#0B2338; border-color:var(--gold); }
+  .expense-form{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:18px 20px; margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;
+  }
+  .expense-form .form-group{ flex:1; min-width:130px; margin-bottom:0; }
+  .expense-form label{ font-size:.76rem; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:5px; }
+  .expense-form input, .expense-form select{
+    width:100%; padding:10px 12px; border:1.5px solid var(--line); border-radius:10px; background:var(--bg);
+    color:var(--ink); font-size:14px; font-family:inherit;
+  }
+  .expense-form button{
+    padding:11px 20px; border-radius:100px; background:var(--ink); color:var(--bg); font-weight:700;
+    font-size:.84rem; border:none; white-space:nowrap;
+  }
+  .expense-row{
+    background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:14px 18px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .expense-row__desc{ font-weight:700; font-size:.92rem; }
+  .expense-row__meta{ font-size:.78rem; color:var(--ink-soft); }
+  .expense-row__amount{ font-weight:800; color:#B3261E; font-size:1rem; }
+  .expense-row__delete{
+    width:30px; height:30px; border-radius:50%; background:var(--bg-alt); color:var(--ink-soft);
+    border:none; flex-shrink:0;
+  }
+  .expense-row__delete:hover{ background:#FCE8E6; color:#B3261E; }
   .admin-tab{
     padding:9px 18px; border-radius:100px; border:1px solid var(--line); font-size:.84rem; font-weight:600;
     color:var(--ink-soft); background:var(--bg-card);
@@ -75,16 +123,82 @@
 </header>
 
 <main class="admin-body">
-  <div class="admin-tabs" id="adminTabs">
-    <button class="admin-tab is-active" data-status="all">Все</button>
-    <button class="admin-tab" data-status="pending">Новые</button>
-    <button class="admin-tab" data-status="confirmed">Подтверждённые</button>
-    <button class="admin-tab" data-status="completed">Завершённые</button>
-    <button class="admin-tab" data-status="cancelled">Отменённые</button>
+  <div class="admin-stats" id="adminStats">
+    <div class="stat-card">
+      <div class="stat-card__label">Записей сегодня</div>
+      <div class="stat-card__value" id="statToday">—</div>
+    </div>
+    <div class="stat-card stat-card--pending">
+      <div class="stat-card__label">Новых заявок</div>
+      <div class="stat-card__value" id="statPending">—</div>
+    </div>
+    <div class="stat-card stat-card--income">
+      <div class="stat-card__label">Доход за месяц</div>
+      <div class="stat-card__value" id="statIncome">—</div>
+    </div>
+    <div class="stat-card stat-card--expense">
+      <div class="stat-card__label">Расход за месяц</div>
+      <div class="stat-card__value" id="statExpense">—</div>
+    </div>
+    <div class="stat-card stat-card--profit">
+      <div class="stat-card__label">Прибыль за месяц</div>
+      <div class="stat-card__value" id="statProfit">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Всего заявок</div>
+      <div class="stat-card__value" id="statTotal">—</div>
+    </div>
   </div>
 
-  <div id="bookingsList">
-    <div class="admin-loading">Загрузка заявок...</div>
+  <div class="admin-sections">
+    <button class="admin-section-btn is-active" data-section="bookings">Заявки</button>
+    <button class="admin-section-btn" data-section="expenses">Расходы</button>
+  </div>
+
+  <div id="bookingsSection">
+    <div class="admin-tabs" id="adminTabs">
+      <button class="admin-tab is-active" data-status="all">Все</button>
+      <button class="admin-tab" data-status="pending">Новые</button>
+      <button class="admin-tab" data-status="confirmed">Подтверждённые</button>
+      <button class="admin-tab" data-status="completed">Завершённые</button>
+      <button class="admin-tab" data-status="cancelled">Отменённые</button>
+    </div>
+
+    <div id="bookingsList">
+      <div class="admin-loading">Загрузка заявок...</div>
+    </div>
+  </div>
+
+  <div id="expensesSection" style="display:none;">
+    <form class="expense-form" id="expenseForm">
+      <div class="form-group">
+        <label for="expDesc">Описание</label>
+        <input type="text" id="expDesc" placeholder="Например: аренда за июль" required>
+      </div>
+      <div class="form-group">
+        <label for="expAmount">Сумма, сом</label>
+        <input type="number" id="expAmount" min="1" required>
+      </div>
+      <div class="form-group">
+        <label for="expCategory">Категория</label>
+        <select id="expCategory">
+          <option value="Аренда">Аренда</option>
+          <option value="Косметика">Косметика и материалы</option>
+          <option value="Реклама">Реклама</option>
+          <option value="Зарплата">Зарплата</option>
+          <option value="Другое">Другое</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="expDate">Дата</label>
+        <input type="date" id="expDate" required>
+      </div>
+      <button type="submit">Добавить расход</button>
+    </form>
+
+    <div id="expensesList">
+      <div class="admin-loading">Загрузка расходов...</div>
+    </div>
   </div>
 </main>
 
@@ -118,8 +232,79 @@
       });
     });
 
+    document.querySelectorAll('.admin-section-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-section-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const section = btn.dataset.section;
+        document.getElementById('bookingsSection').style.display = section === 'bookings' ? '' : 'none';
+        document.getElementById('expensesSection').style.display = section === 'expenses' ? '' : 'none';
+      });
+    });
+
+    document.getElementById('expDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('expenseForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const description = document.getElementById('expDesc').value.trim();
+      const amount = parseInt(document.getElementById('expAmount').value, 10);
+      const category = document.getElementById('expCategory').value;
+      const expense_date = document.getElementById('expDate').value;
+      if (!description || !amount) return;
+
+      const { error } = await supabaseClient.from('expenses').insert({ description, amount, category, expense_date });
+      if (error){ alert('Не удалось добавить расход: ' + error.message); return; }
+      e.target.reset();
+      document.getElementById('expDate').value = new Date().toISOString().split('T')[0];
+      await loadExpenses();
+    });
+
     await loadServices();
     await loadBookings();
+    await loadExpenses();
+  }
+
+  let allExpenses = [];
+
+  async function loadExpenses(){
+    const { data, error } = await supabaseClient
+      .from('expenses').select('*').order('expense_date', { ascending: false });
+    if (error){
+      document.getElementById('expensesList').innerHTML =
+        '<div class="admin-empty">Не удалось загрузить расходы: ' + error.message + '</div>';
+      return;
+    }
+    allExpenses = data || [];
+    renderStats();
+    renderExpenses();
+  }
+
+  function renderExpenses(){
+    const list = document.getElementById('expensesList');
+    if (!allExpenses.length){
+      list.innerHTML = '<div class="admin-empty">Расходов пока нет</div>';
+      return;
+    }
+    list.innerHTML = allExpenses.map(ex => {
+      const dateDisplay = ex.expense_date ? new Date(ex.expense_date).toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' }) : '—';
+      return `
+        <div class="expense-row">
+          <div>
+            <div class="expense-row__desc">${escapeHtml(ex.description)}</div>
+            <div class="expense-row__meta">${escapeHtml(ex.category || '')} · ${dateDisplay}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div class="expense-row__amount">−${ex.amount.toLocaleString('ru-RU')} сом</div>
+            <button class="expense-row__delete" onclick="deleteExpense('${ex.id}')" aria-label="Удалить"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function deleteExpense(id){
+    if (!confirm('Удалить этот расход?')) return;
+    const { error } = await supabaseClient.from('expenses').delete().eq('id', id);
+    if (error){ alert('Не удалось удалить: ' + error.message); return; }
+    await loadExpenses();
   }
 
   async function loadServices(){
@@ -140,6 +325,7 @@
       return;
     }
     allBookings = data || [];
+    renderStats();
     renderBookings();
   }
 
@@ -205,6 +391,39 @@ ${serviceLines}
   function whatsappLink(phone, message){
     const digits = (phone || '').replace(/\D/g, '');
     return 'https://wa.me/' + digits + '?text=' + encodeURIComponent(message);
+  }
+
+  function renderStats(){
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    const thisMonth = today.getMonth();
+    const thisYear = today.getFullYear();
+
+    const todayCount = allBookings.filter(b => b.booking_date === todayStr && b.status !== 'cancelled').length;
+    const pendingCount = allBookings.filter(b => b.status === 'pending').length;
+    const monthIncome = allBookings
+      .filter(b => {
+        if (b.status !== 'completed' || !b.booking_date) return false;
+        const d = new Date(b.booking_date);
+        return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+      })
+      .reduce((sum, b) => sum + (b.total_price || 0), 0);
+    const monthExpense = allExpenses
+      .filter(ex => {
+        if (!ex.expense_date) return false;
+        const d = new Date(ex.expense_date);
+        return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+      })
+      .reduce((sum, ex) => sum + (ex.amount || 0), 0);
+    const monthProfit = monthIncome - monthExpense;
+    const totalCount = allBookings.length;
+
+    document.getElementById('statToday').textContent = todayCount;
+    document.getElementById('statPending').textContent = pendingCount;
+    document.getElementById('statIncome').textContent = monthIncome.toLocaleString('ru-RU') + ' сом';
+    document.getElementById('statExpense').textContent = monthExpense.toLocaleString('ru-RU') + ' сом';
+    document.getElementById('statProfit').textContent = monthProfit.toLocaleString('ru-RU') + ' сом';
+    document.getElementById('statTotal').textContent = totalCount;
   }
 
   function renderBookings(){
