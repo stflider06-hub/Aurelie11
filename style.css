@@ -778,7 +778,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   background:var(--bg-card); border:1px solid var(--line); border-radius:var(--radius-md);
   margin-bottom:12px; cursor:pointer; transition:border-color var(--transition), background var(--transition);
 }
-.service-row:hover{ border-color:var(--gold); }
+@media (hover:hover) and (pointer:fine){
+  .service-row:hover{ border-color:var(--gold); }
+}
 .service-row.is-selected{ border-color:var(--line); background:var(--bg-card); }
 .service-row__img{ width:56px; height:56px; border-radius:50%; object-fit:cover; flex-shrink:0; }
 .service-row__body{ flex:1; }
@@ -798,7 +800,9 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   border:1px solid var(--line); border-radius:var(--radius-md); margin-bottom:14px;
   cursor:pointer; transition:border-color var(--transition), background var(--transition);
 }
-.specialist-row:hover{ border-color:var(--gold); }
+@media (hover:hover) and (pointer:fine){
+  .specialist-row:hover{ border-color:var(--gold); }
+}
 .specialist-row.is-selected{ border-color:var(--gold); background:var(--bg-card); }
 .specialist-row__img{ width:64px; height:64px; border-radius:50%; object-fit:cover; flex-shrink:0; }
 .specialist-row__body{ flex:1; }
