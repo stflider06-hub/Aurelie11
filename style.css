@@ -757,10 +757,11 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
 .service-search input{ border:none; background:none; width:100%; font-size:.95rem; color:var(--ink); outline:none; }
 
 .category-tabs{
-  display:flex; gap:10px; overflow-x:auto; padding-bottom:6px; margin-bottom:30px;
+  display:flex; gap:10px; overflow-x:auto; padding:10px 0 16px;
   -webkit-overflow-scrolling:touch; scroll-behavior:smooth;
   scrollbar-width:none; -ms-overflow-style:none;
-  position:relative;
+  position:sticky; top:64px; z-index:90; background:var(--bg);
+  margin-bottom:14px;
 }
 .category-tabs::-webkit-scrollbar{ display:none; }
 .category-tabs__slider{
@@ -778,7 +779,7 @@ h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.2; 
   margin-bottom:12px; cursor:pointer; transition:border-color var(--transition), background var(--transition);
 }
 .service-row:hover{ border-color:var(--gold); }
-.service-row.is-selected{ border-color:var(--gold); background:var(--bg-card); }
+.service-row.is-selected{ border-color:var(--line); background:var(--bg-card); }
 .service-row__img{ width:56px; height:56px; border-radius:50%; object-fit:cover; flex-shrink:0; }
 .service-row__body{ flex:1; }
 .service-row__body h4{ font-size:.98rem; margin-bottom:3px; }
