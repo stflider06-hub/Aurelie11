@@ -1027,17 +1027,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     refreshServiceUI();
 
-    // Category tabs
+    // Category tabs — with a sliding indicator that glides between them
+    const categoryTabsWrap = document.getElementById('categoryTabs');
+    const categorySlider = document.getElementById('categorySlider');
+
+    function moveCategorySlider(btn){
+      if (!categorySlider || !btn) return;
+      categorySlider.style.width = btn.offsetWidth + 'px';
+      categorySlider.style.transform = `translateX(${btn.offsetLeft}px)`;
+    }
+
     document.querySelectorAll('#categoryTabs .filter-btn').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('#categoryTabs .filter-btn').forEach(t => t.classList.remove('is-active'));
         tab.classList.add('is-active');
+        moveCategorySlider(tab);
+        tab.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
         const cat = tab.dataset.cat;
         document.querySelectorAll('.service-group').forEach(group => {
           group.style.display = (cat === 'all' || group.dataset.cat === cat) ? '' : 'none';
         });
       });
     });
+
+    // Position the slider correctly once layout is ready (fonts/images can shift widths)
+    if (categoryTabsWrap){
+      const initialActive = categoryTabsWrap.querySelector('.filter-btn.is-active');
+      requestAnimationFrame(() => moveCategorySlider(initialActive));
+      window.addEventListener('resize', () => {
+        moveCategorySlider(categoryTabsWrap.querySelector('.filter-btn.is-active'));
+      });
+    }
 
     // Live search
     const searchInput = document.getElementById('serviceSearch');
